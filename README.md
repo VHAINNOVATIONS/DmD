@@ -1,6 +1,8 @@
 # DmD
 The Donate My Data (DmD) project allows people to volunteer to donate their medical data residing in VistA for use by developers or other projects.  It obfuscates key identifiers to keep the real identity of the record holders data private.
 
+Overview
+--------
 The DmD system is broken into four parts. LEAF Frontend, DmD Engine, DmD Acquirer, and DmD Scrubber.
 
 LEAF frontend - Veteran Employees sign up to donate data in this system. DmD Engine - Maintains a listing of current donators mapped to VistA DmD Acquirer - Acquires the donated data from VistA systems DmD Scrubber - Scrubs identifable information from the records in DmD
