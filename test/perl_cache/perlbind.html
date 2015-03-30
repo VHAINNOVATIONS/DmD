@@ -1,0 +1,1023 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Intersys::PERLBIND - Perl binding for Cache'</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body style="background-color: white">
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#running">RUNNING</a></li>
+		<li><a href="#getting_version_of_intersystems_perl_binding">Getting version of InterSystems Perl binding</a></li>
+		<li><a href="#creating_a_connection_to_a_database">Creating a Connection to a Database</a></li>
+		<li><a href="#creating_and_opening_an_object">Creating and Opening an object</a></li>
+		<li><a href="#running_methods">Running Methods</a></li>
+		<li><a href="#getting_and_setting_properties">Getting and Setting Properties</a></li>
+		<li><a href="#_time___date__and__timestamp">%TIME, %DATE, and %TIMESTAMP</a></li>
+		<li><a href="#saving_an_object_">Saving an object:</a></li>
+		<li><a href="#exceptions">Exceptions</a></li>
+		<li><a href="#null_support">Null support</a></li>
+		<li><a href="#collection_support">Collection support</a></li>
+		<li><a href="#relationship_support">Relationship Support</a></li>
+		<li><a href="#error_reporting">Error reporting</a></li>
+		<li><a href="#support_for__binary_data">Support for %Binary data</a></li>
+		<li><a href="#date_time_interpolation">Date/Time Interpolation</a></li>
+		<li><a href="#tied_variables_and_perl_binding">Tied variables and Perl binding</a></li>
+		<li><a href="#_decimal_support">%Decimal support</a></li>
+		<li><a href="#query_support">Query Support</a></li>
+		<ul>
+
+			<li><a href="#query_methods">Query Methods</a></li>
+		</ul>
+
+		<li><a href="#transactions">Transactions</a></li>
+		<ul>
+
+			<li><a href="#transaction_methods">Transaction Methods</a></li>
+		</ul>
+
+		<li><a href="#cache_synchronization">Cache synchronization</a></li>
+		<ul>
+
+			<li><a href="#cache_synchronization_method">Cache synchronization method</a></li>
+		</ul>
+
+		<li><a href="#_list_support">$LIST support</a></li>
+		<li><a href="#methods">METHODS</a></li>
+		<li><a href="#export">EXPORT</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Intersys::PERLBIND - Perl binding for Cache'</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>use Intersys::PERLBIND;</p>
+<p>This module requires 5.6 of Perl.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Using the Perl binding:</p>
+<p>
+</p>
+<h2><a name="running">RUNNING</a></h2>
+<p>Note you will need INSTALLDIR\bin in your PATH (or INSTALLDIR/bin) where INSTALLDIR is the place where you've installed Cache'.  It might be c:\cachesys\bin or /usr/cachesys/bin.  The reason is you need our cbind.dll, our C++ binding, and our ODBC driver, all in your path.  These are in INSTALLDIR\bin.</p>
+<p>
+</p>
+<h2><a name="getting_version_of_intersystems_perl_binding">Getting version of InterSystems Perl binding</a></h2>
+<pre>
+ <span class="variable">$version</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND</span><span class="operator">-&gt;</span><span class="variable">get_implementation_version</span><span class="operator">();</span>
+ <span class="keyword">print</span> <span class="string">"version=</span><span class="variable">$version</span><span class="string">\n"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="creating_a_connection_to_a_database">Creating a Connection to a Database</a></h2>
+<p>Just like in ODBC you need to create a connection and a database:</p>
+<p>For example:</p>
+<pre>
+ <span class="variable">$conn</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Connection</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"localhost[1972]:Samples"</span><span class="operator">,</span><span class="string">"_SYSTEM"</span><span class="operator">,</span><span class="string">"SYS"</span><span class="operator">,</span><span class="number">0</span><span class="operator">);</span>
+</pre>
+<p>A connection has two uses.  One is to get a database.  The other is to use two-factor authentication.</p>
+<p>Here is an example of getting a database.</p>
+<pre>
+
+ <span class="variable">$database</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Database</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$conn</span><span class="operator">);</span>
+</pre>
+<p>Here is an example of using two-factor authentication.</p>
+<pre>
+ <span class="regex">//</span> <span class="variable">Given</span> <span class="variable">a</span> <span class="variable">connection</span> <span class="variable">called</span> <span class="string">"conn"</span>
+ <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$conn</span><span class="operator">-&gt;</span><span class="variable">is_two_factor_enabled</span><span class="operator">())</span> <span class="operator">{</span>
+        <span class="comment"># Prompt the user for the security token.</span>
+        <span class="comment"># Store the token in the "token" variable of type string.</span>
+  <span class="keyword">if</span> <span class="operator">(!</span><span class="variable">$conn</span><span class="operator">-&gt;</span><span class="variable">send_two_factor_token</span><span class="operator">(</span><span class="variable">$token</span><span class="operator">))</span> <span class="operator">{</span>
+      <span class="comment"># Process the error from a invalid authentication token here.</span>
+  <span class="operator">}</span> <span class="keyword">else</span> <span class="operator">{</span>
+      <span class="comment"># two-factor authentication succeeded</span>
+  <span class="operator">}</span>
+ <span class="keyword">else</span> <span class="operator">{</span>
+      <span class="comment"># Handle if two-factor authentication is not enabled on the server.</span>
+  <span class="operator">}</span>
+</pre>
+<p>Here is the syntax for getting a connection:</p>
+<pre>
+ <span class="variable">$conn</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Connection</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(&lt;</span><span class="variable">hoststring</span><span class="operator">&gt;,</span><span class="variable">userid</span><span class="operator">,</span><span class="variable">password</span><span class="operator">,</span><span class="variable">timeout</span><span class="operator">);</span>
+</pre>
+<p>&lt;hoststring&gt; has the format &lt;hostname&gt;[&lt;port&gt;]:&lt;NameSpace&gt;</p>
+<p>The default value for timeout is 0, which means no timeout.</p>
+<p>
+</p>
+<h2><a name="creating_and_opening_an_object">Creating and Opening an object</a></h2>
+<p>Once you have a database you can create or open an object:</p>
+<pre>
+ <span class="variable">$object</span> <span class="operator">=</span>  <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span> <span class="string">"1"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+</pre>
+<p>opens an object.</p>
+<p>here is the syntax:</p>
+<pre>
+ $object = $database-&gt;openid(&lt;ClassName&gt;, &lt;ID&gt;, &lt;concurrency&gt;, &lt;timeout&gt; )</pre>
+<pre>
+ -1 is the default value of &lt;concurrency&gt;.</pre>
+<pre>
+ &lt;timeout&gt; is ODBC query timeout.
+           
+Here is how you create an object:</pre>
+<pre>
+ <span class="variable">$object</span> <span class="operator">=</span>  <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">create_new</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span><span class="keyword">undef</span><span class="operator">);</span>
+</pre>
+<pre>
+ $object = $database-&gt;create_new(&lt;ClassName&gt;,&lt;InitialValue&gt;)</pre>
+<p>
+</p>
+<h2><a name="running_methods">Running Methods</a></h2>
+<p>Once you have an object you can run methods on it and get the properties:</p>
+<p>Here are some examples of running methods:</p>
+<pre>
+ <span class="variable">$ans</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"Addition"</span><span class="operator">,</span> <span class="number">17</span><span class="operator">,</span> <span class="number">20</span><span class="operator">);</span>
+</pre>
+<pre>
+ <span class="variable">$ans</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">Addition</span><span class="operator">(</span><span class="number">17</span><span class="operator">,</span><span class="number">20</span><span class="operator">);</span>
+</pre>
+<pre>
+ $ans = $object-&gt;run_obj_method(&lt;MethodName&gt;,&lt;Args&gt;)</pre>
+<pre>
+ $ans = $object-&gt;&lt;MethodName&gt;(&lt;Args&gt;)</pre>
+<p>&lt;Args&gt; is a Perl list.</p>
+<p>One can also run class methods, for example,</p>
+<pre>
+ <span class="variable">$person</span> <span class="operator">=</span> <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">run_class_method</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span><span class="string">"%OpenId"</span><span class="operator">,</span><span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>By running methods such as %OpenId and %New you can see there are other ways of newing and creating objects.</p>
+<pre>
+ $result = $database-&gt;run_class_method(&lt;ClassName&gt;,&lt;MethodName&gt;,&lt;Args&gt;)</pre>
+<p>&lt;Args&gt; is a Perl list.</p>
+<p>
+</p>
+<h2><a name="getting_and_setting_properties">Getting and Setting Properties</a></h2>
+<p>One can also get and set properties:</p>
+<p>For example,</p>
+<pre>
+    <span class="variable">$name</span> <span class="operator">=</span> <span class="variable">$person</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Name"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"person.name=</span><span class="variable">$name</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="variable">$person</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"Name"</span><span class="operator">,</span><span class="string">"Adler, Mortimer"</span><span class="operator">);</span>
+</pre>
+<p>The syntax is:</p>
+<pre>
+    $value = $object-&gt;get(&lt;PropertyName&gt;)</pre>
+<pre>
+    $object-&gt;set(&lt;PropertyName&gt;,$value)</pre>
+<p>Note: Private and multidimensional properties are not accessible through the Perl binding.</p>
+<p>
+</p>
+<h2><a name="_time___date__and__timestamp">%TIME, %DATE, and %TIMESTAMP</a></h2>
+<p>If an argument, returntype, or property is of type %TIME, %DATE, or %TIMESTAMP there is a special API.</p>
+<p>On times, we support <a href="#get_hour"><code>get_hour()</code></a>, <a href="#get_minute"><code>get_minute()</code></a>, and <a href="#get_second"><code>get_second()</code></a> to get the values in a time.  And to set them, we have set_hour(value), set_minute(value), and set_second(value).  We have $time-&gt;<a href="#tostring"><code>toString()</code></a> to convert the time to a string: hh:mm:ss.</p>
+<p>For dates, we support <a href="#get_year"><code>get_year()</code></a>, <a href="#get_month"><code>get_month()</code></a>, <a href="#get_day"><code>get_day()</code></a> to get the values in a date.  And to set them, we have set_year(value), set_month(value) and set_day(value).  And we have $date-&gt;<a href="#tostring"><code>toString()</code></a> to convert the date to a string: yyyy-mm-dd.</p>
+<p>For timestamps, we support <a href="#get_year"><code>get_year()</code></a>, <a href="#get_month"><code>get_month()</code></a>, <a href="#get_day"><code>get_day()</code></a>, <a href="#get_hour"><code>get_hour()</code></a>, <a href="#get_minute"><code>get_minute()</code></a>, <a href="#get_second"><code>get_second()</code></a>, and <a href="#get_fraction"><code>get_fraction()</code></a>.  And to set them, we have set_year(value), set_month(value), set_day(value), set_hour(value), set_minute(value), set_second(value), and set_fraction(value).  And we have $timestamp-&gt;<a href="#tostring"><code>toString()</code></a> to convert the timestamp to a string yyyy-mm-dd hh:mm:ss.fffffffff.</p>
+<p>Here are some examples of using times, dates, and timestamps:</p>
+<pre>
+    <span class="variable">$date</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"MyDate"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"date=</span><span class="variable">$date</span><span class="string">\n"</span><span class="operator">;</span> <span class="comment"># when interpolated a date becomes a string rather than a reference through overloading</span>
+    <span class="variable">$timestamp</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"MyTimeStamp"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"timestamp=</span><span class="variable">$timestamp</span><span class="string">\n"</span><span class="operator">;</span> <span class="comment"># when interpolated a timestamp becomes a string rather than a reference through overloading</span>
+    <span class="variable">$time</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"MyTime"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"time=</span><span class="variable">$time</span><span class="string">\n"</span><span class="operator">;</span> <span class="comment"># when interpolated a time becomes a string rather than a reference through overloading</span>
+    <span class="comment"># we can set a date through accessors</span>
+    <span class="variable">$date</span><span class="operator">-&gt;</span><span class="variable">set_year</span><span class="operator">(</span><span class="string">"2003"</span><span class="operator">);</span>
+    <span class="variable">$date</span><span class="operator">-&gt;</span><span class="variable">set_month</span><span class="operator">(</span><span class="string">"2"</span><span class="operator">);</span>
+    <span class="variable">$date</span><span class="operator">-&gt;</span><span class="variable">set_day</span><span class="operator">(</span><span class="string">"4"</span><span class="operator">);</span>
+    <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyDate"</span><span class="operator">,</span> <span class="variable">$date</span><span class="operator">);</span>
+    <span class="comment"># or we can set a date through a string</span>
+    <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyDate"</span><span class="operator">,</span><span class="string">"2003-2-4"</span><span class="operator">);</span>
+    <span class="variable">$date</span> <span class="operator">=</span> <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"MyDate"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"date=</span><span class="variable">$date</span><span class="string"> should be 2003-02-04\n"</span><span class="operator">;</span>  <span class="comment"># note how date is a string when using string interpolation</span>
+    <span class="comment"># we can set a time through accessors</span>
+    <span class="variable">$time</span><span class="operator">-&gt;</span><span class="variable">set_hour</span><span class="operator">(</span><span class="number">13</span><span class="operator">);</span>
+    <span class="variable">$time</span><span class="operator">-&gt;</span><span class="variable">set_minute</span><span class="operator">(</span><span class="number">38</span><span class="operator">);</span>
+    <span class="variable">$time</span><span class="operator">-&gt;</span><span class="variable">set_second</span><span class="operator">(</span><span class="number">12</span><span class="operator">);</span>
+    <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyTime"</span><span class="operator">,</span> <span class="variable">$time</span><span class="operator">);</span>
+    <span class="comment"># or we can set a time through a string</span>
+    <span class="variable">$object</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyTime,"</span><span class="number">13</span><span class="operator">:</span><span class="number">38</span><span class="operator">:</span><span class="number">12</span><span class="string">");
+    </span><span class="variable">$time</span><span class="string"> = </span><span class="variable">$object</span><span class="string">-&gt;get("</span><span class="variable">MyTime</span><span class="string">");
+    print "</span><span class="keyword">time</span><span class="operator">=</span><span class="variable">$time</span> <span class="variable">should</span> <span class="variable">be</span> <span class="number">13</span><span class="operator">:</span><span class="number">38</span><span class="operator">:</span><span class="number">12</span><span class="operator">\</span><span class="variable">n</span><span class="string">"; # note how time is a string when using string interpolation
+    # We can set a timestamp through accessors
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_year("</span><span class="number">2003</span><span class="string">");
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_month("</span><span class="number">2</span><span class="string">");
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_day("</span><span class="number">4</span><span class="string">");
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_hour(13);
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_minute(38);
+    </span><span class="variable">$timestamp</span><span class="string">-&gt;set_second(12);
+    </span><span class="variable">$object</span><span class="string">-&gt;set("</span><span class="variable">MyTimeStamp</span><span class="string">", </span><span class="variable">$timestamp</span><span class="string">);
+    # or we can set a timestamp through a string
+    </span><span class="variable">$object</span><span class="string">-&gt;set("</span><span class="variable">MyTimeStamp</span><span class="string">","</span><span class="number">2003</span><span class="operator">-</span><span class="number">02</span><span class="operator">-</span><span class="number">04</span> <span class="number">13</span><span class="operator">:</span><span class="number">38</span><span class="operator">:</span><span class="number">12.0000</span><span class="string">");
+    </span><span class="variable">$timestamp</span><span class="string"> = </span><span class="variable">$object</span><span class="string">-&gt;get("</span><span class="variable">MyTimeStamp</span><span class="string">");
+    print "</span><span class="variable">timestamp</span><span class="operator">=</span><span class="variable">$timestamp</span> <span class="variable">should</span> <span class="variable">be</span> <span class="number">2003</span><span class="operator">-</span><span class="number">02</span><span class="operator">-</span><span class="number">04</span> <span class="number">13</span><span class="operator">:</span><span class="number">38</span><span class="operator">:</span><span class="number">12.0000</span><span class="operator">\</span><span class="variable">n</span><span class="string">"; # note how timestamp is a string when using string interpolation
+    </span>
+</pre>
+<p>
+</p>
+<h2><a name="saving_an_object_">Saving an object:</a></h2>
+<p>To save an object use the %Save method</p>
+<pre>
+   $obj-&gt;run_obj_method(&quot;%Save&quot;)</pre>
+<p>To get the id of a saved object use the %Id method</p>
+<pre>
+   $id = $obj-&gt;run_obj_method(&quot;%Id&quot;)</pre>
+<p>
+</p>
+<h2><a name="exceptions">Exceptions</a></h2>
+<p>The Perl binding uses Perl exceptions to return errors from the C binding and elsewhere.</p>
+<p>Here are some examples of using Perl exceptions:</p>
+<pre>
+    <span class="keyword">eval</span> <span class="operator">{</span> <span class="comment"># demonstrate Perl exception handling</span>
+        <span class="variable">$ans</span> <span class="operator">=</span> <span class="variable">$variant2</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"PassLastByRefAdd17"</span><span class="operator">,</span><span class="string">"10"</span><span class="operator">,</span><span class="string">"goodbye"</span><span class="operator">);</span>
+    <span class="operator">};</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$@</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"Perl exception $@\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    <span class="keyword">eval</span> <span class="operator">{</span> <span class="comment"># demo2 of Perl exception handling</span>
+        <span class="variable">$causeException</span> <span class="operator">=</span> <span class="variable">$database2</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="string">"NonExistent"</span><span class="operator">,</span> <span class="string">"1"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+    <span class="operator">};</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$@</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"Perl exception $@\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<h2><a name="null_support">Null support</a></h2>
+<p>We've programmed the Perl binding so that Cache' null (i.e., &quot;&quot;) corresponds to Perl undef.</p>
+<p>Perl has the notion of an empty string - &quot;&quot; but this is not the same as Cache' null.  Cache' null corresponds to undef.</p>
+<p>
+</p>
+<h2><a name="collection_support">Collection support</a></h2>
+<p>We support collections through methods on the collection object.</p>
+<p>For instance, the following illustrates how one would program favorite colors.</p>
+<pre>
+    <span class="variable">$favorites</span> <span class="operator">=</span> <span class="variable">$person</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"FavoriteColors"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"favorites=</span><span class="variable">$favorites</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="variable">$index</span><span class="operator">=</span><span class="string">""</span><span class="operator">;</span>
+    <span class="keyword">do</span> <span class="operator">{</span>
+        <span class="variable">$color</span> <span class="operator">=</span> <span class="variable">$favorites</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"GetNext"</span><span class="operator">,</span><span class="variable">$index</span><span class="operator">);</span>
+        <span class="keyword">print</span> <span class="string">"index=</span><span class="variable">$index</span><span class="string"> color=</span><span class="variable">$color</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="variable">$index</span> <span class="operator">!=</span> <span class="string">""</span><span class="operator">);</span>
+</pre>
+<p>The above code most closely resembles Cache' code but note that Perl counts undefs as == to &quot;&quot; and to 0.  This is because &quot;==&quot; is a numeric operator and how Perl does numeric conversions.  So the above can also be written:</p>
+<pre>
+    <span class="variable">$index</span><span class="operator">=</span><span class="keyword">undef</span><span class="operator">;</span>
+    <span class="keyword">do</span> <span class="operator">{</span>
+        <span class="variable">$color</span> <span class="operator">=</span> <span class="variable">$favorites</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"GetNext"</span><span class="operator">,</span><span class="variable">$index</span><span class="operator">);</span>
+        <span class="keyword">print</span> <span class="string">"index=</span><span class="variable">$index</span><span class="string"> color=</span><span class="variable">$color</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="keyword">defined</span><span class="operator">(</span><span class="variable">$index</span><span class="operator">));</span>
+</pre>
+<p>
+</p>
+<h2><a name="relationship_support">Relationship Support</a></h2>
+<p>Relationships are supported through the relationship object and its methods.</p>
+<p>Here are some examples:</p>
+<pre>
+    <span class="comment"># scanning a relationship</span>
+    <span class="variable">$company</span> <span class="operator">=</span> <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="string">"Sample.Company"</span><span class="operator">,</span> <span class="string">"1"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+    <span class="variable">$employees</span> <span class="operator">=</span> <span class="variable">$company</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Employees"</span><span class="operator">);</span>
+    <span class="variable">$index</span><span class="operator">=</span><span class="string">""</span><span class="operator">;</span>
+    <span class="keyword">do</span> <span class="operator">{</span>
+        <span class="variable">$employee</span> <span class="operator">=</span> <span class="variable">$employees</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"GetNext"</span><span class="operator">,</span><span class="variable">$index</span><span class="operator">);</span>
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$index</span> <span class="operator">!=</span> <span class="string">""</span><span class="operator">)</span> <span class="operator">{</span>
+            <span class="variable">$name</span> <span class="operator">=</span> <span class="variable">$employee</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Name"</span><span class="operator">);</span>
+            <span class="variable">$title</span> <span class="operator">=</span> <span class="variable">$employee</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Title"</span><span class="operator">);</span>
+            <span class="variable">$company</span> <span class="operator">=</span> <span class="variable">$employee</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Company"</span><span class="operator">);</span>
+            <span class="variable">$companyName</span> <span class="operator">=</span> <span class="variable">$company</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"Name"</span><span class="operator">);</span>
+            <span class="variable">$SSN</span> <span class="operator">=</span> <span class="variable">$employee</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"SSN"</span><span class="operator">);</span>
+            <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$SSN</span> <span class="operator">=~</span> <span class="regex">/\d\d\d-\d\d-(\d\d\d\d)/</span><span class="operator">)</span> <span class="operator">{</span>
+                <span class="variable">$last4</span><span class="operator">=</span><span class="variable">$1</span><span class="operator">;</span>
+            <span class="operator">}</span>
+            <span class="variable">$max</span> <span class="operator">=</span> <span class="variable">$last4</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$last4</span> <span class="operator">&gt;</span> <span class="variable">$max</span><span class="operator">);</span>
+            <span class="keyword">print</span> <span class="string">"index=</span><span class="variable">$index</span><span class="string"> employee name=</span><span class="variable">$name</span><span class="string"> SSN=</span><span class="variable">$SSN</span><span class="string"> title=</span><span class="variable">$title</span><span class="string"> companyname=</span><span class="variable">$companyName</span><span class="string">\n"</span><span class="operator">;</span>
+        <span class="operator">}</span>
+        <span class="operator">}</span>
+    <span class="operator">}</span> <span class="keyword">while</span> <span class="operator">(</span><span class="variable">$index</span> <span class="operator">!=</span> <span class="string">""</span><span class="operator">);</span>
+</pre>
+<p>We can also insert an object into the child relationship object and then save the parent to save object in the children.</p>
+<pre>
+    <span class="comment"># inserting an employee into a relationship</span>
+</pre>
+<pre>
+    <span class="variable">$employees</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"Insert"</span><span class="operator">,</span> <span class="variable">$employee</span><span class="operator">);</span>
+    <span class="variable">$company</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"%Save"</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h2><a name="error_reporting">Error reporting</a></h2>
+<p>When processing an argument or a return value, errors messages from the C binding are specially formatted by the Perl binding layer.</p>
+<p>Here is a sample error message:</p>
+<pre>
+   file=PERLBIND.xs line=71 err=-1 message=cbind_variant_set_buf() cpp_type=4 var.cpp_type=-1 var.obj.oref=1784835886 class_name=%Library.RelationshipObject mtd_name=GetNext argnum=0</pre>
+<p>We indicate the file where we failed, the line number of the fail, the return code from the C binding, the C binding error message, the cpp type of the method argument or return type, the variant cpp type, the variant oref, the class name of the object on which the method is invoked, the method name, and the argument number.  0 is the first argument and -1 indicates the return value.</p>
+<p>This information can be used by WRC to help diagnose the customer problem or Perl binding / C binding issue.</p>
+<p>
+</p>
+<h2><a name="support_for__binary_data">Support for %Binary data</a></h2>
+<p>For data that is %Binary whether as method arguments or property types, the Perl binding works as follows.</p>
+<p>On return the data is returned using the Perl pack built-in and the template is &quot;c*&quot;.  On input the Perl binding expects the data to be in pack format with the template as &quot;c*&quot; and it uses the Perl built-in unpack to format the data for Cache'.</p>
+<p>Each character unpacked by <code>unpack()</code> represents the original binary data as a Perl integer between 1 and 255.  One does not apply ord to the returned character to find out what it really is.</p>
+<p>Suppose you have binary data stored on Cache' that equals &quot;hello&quot;.</p>
+<p>You have it stored as a property B that is %Binary.</p>
+<p>You want to change the first letter to &quot;j&quot; so that it becomes &quot;jello&quot;</p>
+<p>You have</p>
+<p>$b = $db-&gt;openid(&quot;User.Bin&quot;,1,-1,0);
+$pack = $b-&gt;get(&quot;B&quot;);
+@B = <code>unpack(&quot;c*&quot;,$pack)</code>;
+$B[0] = ord(&quot;j&quot;);
+$pack = <code>pack(&quot;c*&quot;,@B)</code>;
+$b-&gt;<a href="#set"><code>set(&quot;B&quot;,$pack)</code></a>;
+$b-&gt;<a href="#run_obj_method"><code>run_obj_method(&quot;%Save&quot;)</code></a>;</p>
+<p>unpack()/pack() are just meant to be complementary routines for turning binary data into an array of ords (this is what &quot;c*&quot; means) and turning an array of ords back into binary data.</p>
+<p>Here is another example:</p>
+<pre>
+    <span class="variable">$pack</span> <span class="operator">=</span> <span class="variable">$testPerl</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"GetBinary"</span><span class="operator">);</span>
+    <span class="variable">@unpack</span> <span class="operator">=</span> <span class="keyword">unpack</span><span class="operator">(</span><span class="string">"c*"</span><span class="operator">,</span><span class="variable">$pack</span><span class="operator">);</span>
+    <span class="keyword">foreach</span> <span class="variable">$c</span> <span class="operator">(</span><span class="variable">@unpack</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">printf</span> <span class="string">"c=%c\n"</span><span class="operator">,</span><span class="variable">$c</span>
+    <span class="operator">}</span>
+    <span class="variable">$testPerl</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span><span class="string">"SetBinary"</span><span class="operator">,</span><span class="variable">$pack</span><span class="operator">);</span>
+</pre>
+<p>The output is the following:</p>
+<pre>
+    c=h
+    c=e
+    c=l
+    c=l
+    c=o</pre>
+<p>and in ^foobar is written &quot;hello&quot;.</p>
+<p>Note that in the above the &quot;%c&quot; turns an ord value into a character.</p>
+<p>The Cache' methods in the above are the following:</p>
+<pre>
+    <span class="variable">Method</span> <span class="variable">GetBinary</span><span class="operator">()</span> <span class="variable">As</span> <span class="variable">%Binary</span>
+    <span class="operator">{</span>
+        <span class="string">q "hello"</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">Method</span> <span class="variable">SetBinary</span><span class="operator">(x</span> <span class="variable">AS</span> <span class="variable">%Binary</span><span class="operator">)</span>
+    <span class="operator">{</span>
+        <span class="regex">s ^foobar=x
+    }
+    </span>
+</pre>
+<p>
+</p>
+<h2><a name="date_time_interpolation">Date/Time Interpolation</a></h2>
+<pre>
+
+We overload the string operator &quot;&quot; so that when interpolated dates, times, and timestamps appear as strings.</pre>
+<p>For example,</p>
+<pre>
+ <span class="variable">$date</span> <span class="operator">=</span> <span class="variable">$variant</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"DOB"</span><span class="operator">);</span>
+ <span class="keyword">print</span> <span class="string">"date=</span><span class="variable">$date</span><span class="string">\n"</span><span class="operator">;</span>
+</pre>
+<p>appears as follows:</p>
+<pre>
+ date=1902-12-25</pre>
+<p>We allow dates, times, and timestamps to be set from strings.</p>
+<p>Dates are in year-month-day format.  Times are in Hours:Minutes:Seconds format.  Timestamps are in year-month-day&lt;space&gt;Hours:Minutes:Seconds.Fractions format.</p>
+<p>Here are some examples:</p>
+<pre>
+ <span class="variable">$variant</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"DOB"</span><span class="operator">,</span><span class="string">"2003-12-24"</span><span class="operator">);</span>  <span class="comment"># set %Date field DOB (Date of Birth)</span>
+</pre>
+<pre>
+ <span class="variable">$regr</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyTime"</span><span class="operator">,</span><span class="string">"12:00:01"</span><span class="operator">);</span> <span class="comment"># set %Time field 1 minute after 12</span>
+</pre>
+<pre>
+ <span class="variable">$regr</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span><span class="string">"MyTimeStamp"</span><span class="operator">,</span><span class="string">"2003-02-04 13:38:12.0000"</span><span class="operator">);</span> <span class="comment"># set %Timestamp, note final fraction</span>
+</pre>
+<p>
+</p>
+<h2><a name="tied_variables_and_perl_binding">Tied variables and Perl binding</a></h2>
+<p>We support tieing an object returned by the Perl binding to a hash and then accessing the properties of the object through the hash.</p>
+<p>For instance,</p>
+<pre>
+ <span class="variable">$object</span> <span class="operator">=</span>  <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span> <span class="string">"1"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+ <span class="variable">$person</span> <span class="operator">=</span> <span class="keyword">tie</span> <span class="variable">%person</span><span class="operator">,</span><span class="string">"Intersys::PERLBIND::ObjectHash"</span><span class="operator">,(</span> <span class="string">_object</span> <span class="operator">=&gt;</span> <span class="variable">$object</span><span class="operator">)</span>
+ <span class="variable">$name</span> <span class="operator">=</span> <span class="variable">$person</span><span class="operator">{</span><span class="string">"Name"</span><span class="operator">}</span><span class="operator">;</span>
+ <span class="variable">$person</span><span class="operator">{</span><span class="string">"Name"</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">"Tregar, Sam"</span><span class="operator">;</span> <span class="comment"># this is equivalent to $person-&gt;set("Name","Tregar, Sam");</span>
+</pre>
+<p>Instead of getting the the name of person through $person-&gt;get(&quot;Name&quot;), one can use the tie to get it through the hash - $person{&quot;Name&quot;}.</p>
+<p>One can use the return value from the tie to run methods or one can use the &quot;tied&quot; built-in of Perl to run methods, for example:</p>
+<pre>
+ <span class="variable">$ans</span> <span class="operator">=</span> <span class="variable">$person</span><span class="operator">-&gt;</span><span class="variable">Addition</span><span class="operator">(</span><span class="number">12</span><span class="operator">,</span><span class="number">17</span><span class="operator">);</span>
+ <span class="keyword">print</span> <span class="string">"ans=</span><span class="variable">$ans</span><span class="string">\n"</span><span class="operator">;</span>
+ <span class="variable">$ans</span> <span class="operator">=</span> <span class="keyword">tied</span><span class="operator">(</span><span class="variable">%person</span><span class="operator">)-&gt;</span><span class="variable">Addition</span><span class="operator">(</span><span class="number">12</span><span class="operator">,</span><span class="number">17</span><span class="operator">);</span>
+ <span class="keyword">print</span> <span class="string">"ans=</span><span class="variable">$ans</span><span class="string">\n"</span><span class="operator">;</span>
+</pre>
+<p>In both cases 29 is returned.</p>
+<p>For more information about ties, read any book on Perl.</p>
+<p>We support walking the properties through the tie, so one can do the following:</p>
+<pre>
+ <span class="keyword">while</span>  <span class="operator">((</span><span class="variable">$property</span><span class="operator">,</span> <span class="variable">$value</span> <span class="operator">)</span> <span class="operator">=</span> <span class="keyword">each</span><span class="operator">(</span><span class="variable">%person</span><span class="operator">))</span> <span class="operator">{</span>
+     <span class="keyword">print</span> <span class="string">"propety=</span><span class="variable">$property</span><span class="string"> value=</span><span class="variable">$value</span><span class="string">\n"</span><span class="operator">;</span>
+ <span class="operator">}</span>
+</pre>
+<p>Here is a complete example:</p>
+<pre>
+    <span class="variable">$database</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Database</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$conn</span><span class="operator">);</span>
+    <span class="variable">$personobj</span> <span class="operator">=</span>  <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span> <span class="string">"1"</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+    
+    <span class="variable">$person</span> <span class="operator">=</span> <span class="keyword">tie</span> <span class="variable">%person</span><span class="operator">,</span><span class="string">"Intersys::PERLBIND::ObjectHash"</span><span class="operator">,(</span> <span class="string">_object</span> <span class="operator">=&gt;</span> <span class="variable">$personobj</span><span class="operator">);</span>
+    <span class="keyword">while</span> <span class="operator">((</span><span class="variable">$propname</span><span class="operator">,</span> <span class="variable">$value</span><span class="operator">)</span> <span class="operator">=</span> <span class="keyword">each</span><span class="operator">(</span><span class="variable">%person</span><span class="operator">))</span> <span class="operator">{</span>
+            <span class="keyword">print</span> <span class="string">"property </span><span class="variable">$propname</span><span class="string"> = </span><span class="variable">$value</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>and this produces the output:</p>
+<pre>
+    property Age = 61
+    property DOB = 1942-01-18
+    property SSN = 295-62-8728
+    property Home = Intersys::PERLBIND::Object=SCALAR(0x1831ee4)
+    property Name = Adler, Mortimer
+    property Office = Intersys::PERLBIND::Object=SCALAR(0x183eed0)
+    property Spouse = 
+    property FavoriteColors = Intersys::PERLBIND::Object=SCALAR(0x1831e3c)</pre>
+<p>The above code will display each property and its value.</p>
+<p>
+</p>
+<h2><a name="_decimal_support">%Decimal support</a></h2>
+<p>The Perl binding provides support for the Cache' %Decimal type through defining Perl objects of type Intersys::PERLBIND::Decimal.</p>
+<p>Suppose we have a property called d which is of type Decimal in a class User.n19.</p>
+<pre>
+   <span class="variable">Property</span> <span class="variable">d</span> <span class="variable">As</span> <span class="variable">%Decimal</span><span class="operator">(</span><span class="variable">SCALE</span> <span class="operator">=</span> <span class="number">19</span><span class="operator">);</span>
+</pre>
+<p>Suppose we have a method in this class that returns numbers of type %Decimal:</p>
+<pre>
+    <span class="variable">ClassMethod</span> <span class="variable">n</span><span class="operator">(</span><span class="variable">d</span> <span class="variable">As</span> <span class="variable">%Decimal</span><span class="operator">(</span><span class="variable">SCALE</span><span class="operator">=</span><span class="number">19</span><span class="operator">))</span> <span class="variable">As</span> <span class="variable">%Decimal</span>
+    <span class="operator">{</span>
+        <span class="string">s</span> <span class="operator">^</span><span class="variable">foobar</span><span class="operator">=</span><span class="variable">d</span>
+        <span class="string">q 1e-1</span><span class="number">9</span>
+    <span class="operator">}</span>
+</pre>
+<p>Here is an example of how a Perl program would define a decimal number, set and get the property and call the method:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$decimal</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Decimal</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">1</span><span class="operator">,-</span><span class="number">19</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">$ret</span> <span class="operator">=</span> <span class="variable">$db</span><span class="operator">-&gt;</span><span class="variable">run_class_method</span><span class="operator">(</span> <span class="string">"N19"</span><span class="operator">,</span> <span class="string">"n"</span><span class="operator">,</span> <span class="operator">(</span> <span class="variable">$decimal</span><span class="operator">));</span>
+</pre>
+<pre>
+    <span class="keyword">printf</span><span class="operator">(</span> <span class="string">"decimal out: %.19f\n"</span><span class="operator">,</span> <span class="variable">$ret</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">$db</span><span class="operator">-&gt;</span><span class="variable">create_new</span><span class="operator">(</span> <span class="string">"N19"</span><span class="operator">,</span> <span class="string">""</span><span class="operator">);</span>
+    <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span> <span class="string">"n19"</span><span class="operator">,</span> <span class="variable">$in</span><span class="operator">);</span>
+    <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">set</span><span class="operator">(</span> <span class="string">"d"</span><span class="operator">,</span> <span class="variable">$decimal</span><span class="operator">);</span>
+    <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">run_obj_method</span><span class="operator">(</span> <span class="string">"%Save"</span><span class="operator">,</span> <span class="operator">());</span>
+</pre>
+<pre>
+    <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">$db</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span> <span class="string">"N19"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">,</span> <span class="operator">-</span><span class="number">1</span><span class="operator">);</span>
+    <span class="keyword">printf</span><span class="operator">(</span> <span class="string">"open: %.19f %.19f\n"</span><span class="operator">,</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span> <span class="string">"n19"</span><span class="operator">),</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span> <span class="string">"d"</span> <span class="operator">));</span>
+</pre>
+<p>Note that we use the new method to create a new decimal.  The first argument to new is the significand and the second argument to new is the exponent and the value of the decimal is signficand * 10 ** exponent.</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$decimal</span> <span class="operator">=</span> <span class="variable">Intersys::PERLBIND::Decimal</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">signficand</span><span class="operator">,</span><span class="variable">exponent</span><span class="operator">);</span>
+</pre>
+<p>The significand and exponent of $decimal can be derived through the accessors <code>get_significand()</code> and <code>get_exponent()</code>, $decimal-&gt;<code>get_significand()</code> and $decimal-&gt;<code>get_exponent()</code>.</p>
+<p>
+</p>
+<h2><a name="query_support">Query Support</a></h2>
+<p>The Perl binding supports queries.</p>
+<p>To do a query, one must first allocate and prepare a query, then one sets any parameters, executes the query, and fetches the results.</p>
+<pre>
+ <span class="number">1</span><span class="operator">)</span> <span class="variable">allocate</span> <span class="variable">query</span><span class="operator">:</span> <span class="variable">$query</span> <span class="operator">=</span> <span class="variable">$database2</span><span class="operator">-&gt;</span><span class="variable">alloc_query</span><span class="operator">();</span>
+ <span class="number">2</span><span class="operator">)</span> <span class="variable">prepare</span> <span class="variable">query</span><span class="operator">:</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"SELECT * FROM SAMPLE.PERSON WHERE ID=?"</span><span class="operator">,</span><span class="variable">$sqlcode</span><span class="operator">);</span>
+ <span class="number">3</span><span class="operator">)</span> <span class="variable">set</span> <span class="variable">any</span> <span class="variable">parameters</span><span class="operator">:</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">set_par</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">);</span>
+ <span class="number">4</span><span class="operator">)</span> <span class="variable">execute</span> <span class="variable">query</span><span class="operator">:</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">(</span><span class="variable">$sqlcode</span><span class="operator">);</span>
+ <span class="number">5</span><span class="operator">)</span> <span class="variable">fetch</span> <span class="variable">results</span>
+</pre>
+<p>Note that set_par can only be used to send a parameter to Cache'.  It does not support by reference parameters.</p>
+<p>$query-&gt;<a href="#fetch"><code>fetch($sqlcode)</code></a> returns a list of the fetched columns when run in a LIST context and when run in a SCALAR context, it returns the number of columns.  When there is no more data remaining to be fetched it returns an empty list.</p>
+<p>Here is an example of fetching the columns and printing the data contained in the columns:</p>
+<pre>
+ <span class="keyword">while</span> <span class="operator">(</span><span class="variable">@cols</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">fetch</span><span class="operator">(</span><span class="variable">$sqlcode</span><span class="operator">))</span> <span class="operator">{</span>
+     <span class="variable">$colnum</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+     <span class="keyword">foreach</span> <span class="variable">$col</span> <span class="operator">(</span><span class="variable">@cols</span><span class="operator">)</span> <span class="operator">{</span>
+         <span class="variable">$col_name</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">col_name</span><span class="operator">(</span><span class="variable">$colnum</span><span class="operator">);</span>
+         <span class="keyword">print</span> <span class="string">"column name = </span><span class="variable">$col_name</span><span class="string">, data=</span><span class="variable">$col</span><span class="string">\n"</span><span class="operator">;</span>
+         <span class="variable">$colnum</span><span class="operator">++;</span>
+        
+     <span class="operator">}</span>
+ <span class="operator">}</span>
+</pre>
+<p>Here is an example of doing a class query:</p>
+<pre>
+    <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">prepare_class</span><span class="operator">(</span><span class="string">"Sample.Person"</span><span class="operator">,</span><span class="string">"ByName"</span><span class="operator">,</span><span class="variable">$sqlcode</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"sqlcode=</span><span class="variable">$sqlcode</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">set_par</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span><span class="string">"DeSantis"</span><span class="operator">);</span>
+    <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">(</span><span class="variable">$sqlcode</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"sqlcode=</span><span class="variable">$sqlcode</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="variable">$count</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+    <span class="variable">$num_cols</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">num_cols</span><span class="operator">();</span>
+</pre>
+<pre>
+    <span class="keyword">while</span> <span class="operator">(</span><span class="variable">@cols</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">fetch</span><span class="operator">(</span><span class="variable">$sqlcode</span><span class="operator">))</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"fetch sqlcode=</span><span class="variable">$sqlcode</span><span class="string">\n"</span><span class="operator">;</span>    
+        <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$count</span><span class="operator">+</span><span class="number">1</span><span class="operator">;</span>
+        <span class="keyword">print</span> <span class="string">"row = </span><span class="variable">$row</span><span class="string">\n"</span><span class="operator">;</span>
+        <span class="variable">$col</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+        <span class="keyword">foreach</span> <span class="variable">$data</span> <span class="operator">(</span><span class="variable">@cols</span><span class="operator">)</span> <span class="operator">{</span>
+            <span class="variable">$sql_type</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">col_sql_type</span><span class="operator">(</span><span class="variable">$col</span><span class="operator">);</span>
+            <span class="variable">$col_name</span> <span class="operator">=</span> <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">col_name</span><span class="operator">(</span><span class="variable">$col</span><span class="operator">);</span>
+            <span class="keyword">print</span> <span class="string">"column name = </span><span class="variable">$col_name</span><span class="string">, sql type = </span><span class="variable">$sql_type</span><span class="string">, data=</span><span class="variable">$data</span><span class="string">\n"</span><span class="operator">;</span>
+            <span class="variable">$col</span><span class="operator">++;</span>
+        <span class="operator">}</span>
+        <span class="keyword">print</span> <span class="string">"\n"</span><span class="operator">;</span>
+        <span class="variable">$count</span><span class="operator">++;</span>
+</pre>
+<pre>
+    }</pre>
+<p>There are utility methods for extracting information about a query, for example:</p>
+<p>$num_cols=$query-&gt;<a href="#num_cols"><code>num_cols()</code></a>;</p>
+<p>$sqltype=$query-&gt;col_sql_type(idx);</p>
+<p>$name = $query-&gt;col_name(idx);</p>
+<p>
+</p>
+<h3><a name="query_methods">Query Methods</a></h3>
+<dl>
+<dt><strong><a name="prepare" class="item">$query-&gt;prepare($string, $sqlcode)</a></strong></dt>
+
+<dd>
+<p>prepares a query using the string in string.</p>
+</dd>
+<dt><strong><a name="prepare_class" class="item">$query-&gt;prepare_class($class_name, $query_name, $sqlcode)</a></strong></dt>
+
+<dd>
+<p>prepare a query in a class definition</p>
+</dd>
+<dt><strong><a name="execute" class="item">$query-&gt;<code>execute()</code></a></strong></dt>
+
+<dd>
+<p>executes a query.</p>
+</dd>
+<dt><strong><a name="fetch" class="item">@column_data = $query-&gt;<code>fetch($sqlcode)</code>, $column_count = scalar($query-&gt;fetch($sqlcode))</a></strong></dt>
+
+<dd>
+<p>returns fetched columns.  In LIST context is list of column data, in SCALAR context is number of columns.</p>
+</dd>
+<dt><strong><a name="num_cols" class="item">$num_cols = $query-&gt;<code>num_cols()</code></a></strong></dt>
+
+<dd>
+<p>returns number of columns in query</p>
+</dd>
+<dt><strong><a name="col_sql_type" class="item">$sql_type = $query-&gt;<code>col_sql_type($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns sql type of column</p>
+</dd>
+<dt><strong><a name="col_name" class="item">$name = $query-&gt;<code>col_name($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns name of column</p>
+</dd>
+<dt><strong><a name="col_name_length" class="item">$length = $query-&gt;col_name_length(idx)</a></strong></dt>
+
+<dd>
+<p>returns length of column name</p>
+</dd>
+<dt><strong><a name="set_par" class="item">$query-&gt;set_par($idx, $var)</a></strong></dt>
+
+<dd>
+<p>set parameter</p>
+<pre>
+ example:</pre>
+<pre>
+ <span class="variable">$query</span><span class="operator">-&gt;</span><span class="variable">set_par</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">);</span>
+</pre>
+<pre>
+ $query-&gt;set_par(1,&quot;1983-04-03&quot;)</pre>
+<pre>
+ Note that set_par can only be used to send a parameter to Cache'.  It does not support by reference parameters.</pre>
+</dd>
+<dt><strong><a name="num_pars" class="item">$num = $query-&gt;<code>num_pars()</code></a></strong></dt>
+
+<dd>
+<p>returns number of parameters in query</p>
+</dd>
+<dt><strong><a name="par_sql_type" class="item">$type = $query-&gt;<code>par_sql_type($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns sql type of parameter</p>
+</dd>
+<dt><strong><a name="par_col_size" class="item">$size = $query-&gt;<code>par_col_size($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns size of parameter column</p>
+</dd>
+<dt><strong><a name="par_num_dec_digits" class="item">$num = $query-&gt;<code>par_num_dec_digits($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns number of decimal digits in parameter</p>
+</dd>
+<dt><strong><a name="is_par_nullable" class="item">$nullable = $query-&gt;<code>is_par_nullable($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns 1 if parameter is nullable, else 0</p>
+</dd>
+<dt><strong><a name="is_par_unbound" class="item">$unbound = $query-&gt;<code>is_par_unbound($idx)</code></a></strong></dt>
+
+<dd>
+<p>returns 1 if parameter is unbound, else 0</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="transactions">Transactions</a></h2>
+<p>We support methods for working with transactions from the Perl binding: tstart, tlevel, and tcommit.  Here is an example.</p>
+<pre>
+        <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">tstart</span><span class="operator">();</span>
+        <span class="variable">$obj1</span> <span class="operator">=</span> <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">openid</span><span class="operator">(</span><span class="variable">$className</span><span class="operator">,</span><span class="string">"1"</span><span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">10</span><span class="operator">);</span>
+        <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">tlevel</span><span class="operator">(</span><span class="variable">$level</span><span class="operator">);</span>
+        <span class="operator">...</span> <span class="variable">some</span> <span class="variable">operations</span> <span class="operator">...</span>
+        <span class="variable">$database</span><span class="operator">-&gt;</span><span class="variable">tcommit</span><span class="operator">();</span>
+</pre>
+<p>
+</p>
+<h3><a name="transaction_methods">Transaction Methods</a></h3>
+<dl>
+<dt><strong><a name="tstart" class="item">$database-&gt;<code>tstart()</code></a></strong></dt>
+
+<dd>
+<p>Starts a transaction.  See TSTART in COS documentation.</p>
+</dd>
+<dt><strong><a name="tlevel" class="item">$database-&gt;<code>tlevel($level)</code></a></strong></dt>
+
+<dd>
+<p>Returns tlevel of transaction.  See TLEVEL in COS documentation.</p>
+</dd>
+<dt><strong><a name="trollback" class="item">$database-&gt;<code>trollback()</code></a></strong></dt>
+
+<dd>
+<p>Rollsback a transaction.  See TROLLBACK in COS documentation.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="cache_synchronization">Cache synchronization</a></h2>
+<p>The Perl binding is built on a C binding which contains a cache of objects reflecting the state of objects on Cache'.  This cache is synchronized with Cache' whenever a Cache' method is run.  To synchronize this cache without running a Cache' method use $database-&gt;sync_cache.</p>
+<p>
+</p>
+<h3><a name="cache_synchronization_method">Cache synchronization method</a></h3>
+<dl>
+<dt><strong><a name="sync_cache" class="item">$database-&gt;<code>sync_cache()</code></a></strong></dt>
+
+</dl>
+<p>
+</p>
+<h2><a name="_list_support">$LIST support</a></h2>
+<p>We support arguments of type %List by mapping those variables in the Perl binding to array references.</p>
+<p>Suppose we have the following Cache' methods that use %List.</p>
+<pre>
+    <span class="variable">Method</span> <span class="variable">GetDList</span><span class="operator">()</span> <span class="variable">As</span> <span class="variable">%List</span> 
+    <span class="operator">{</span>
+        <span class="string">q $LB(1,"hello",3.14)
+    }
+    </span>
+</pre>
+<pre>
+    <span class="variable">Method</span> <span class="variable">SetDList</span><span class="operator">(x</span> <span class="variable">As</span> <span class="variable">%List</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="regex">s ^foobar=x
+    }
+    </span>
+</pre>
+<p>We can use these methods in the Perl binding as follows:</p>
+<pre>
+    <span class="variable">$arrayref</span> <span class="operator">=</span> <span class="variable">$variant2</span><span class="operator">-&gt;</span><span class="variable">GetDList</span><span class="operator">();</span>
+    <span class="keyword">print</span> <span class="string">"arrayref=</span><span class="variable">$arrayref</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">@$arrayref</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"dumping array in arrayref\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"</span><span class="variable">@array</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="keyword">foreach</span> <span class="variable">$val</span> <span class="operator">(</span><span class="variable">@array</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"val=</span><span class="variable">$val</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>The output from the above code is:</p>
+<pre>
+    1 hello 3.14
+    val=1
+    val=hello
+    val=3.14</pre>
+<p>We can also set a %List from a reference to a Perl array:</p>
+<pre>
+    <span class="variable">@inarray</span> <span class="operator">=</span> <span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">,</span> <span class="number">2.78</span><span class="operator">,</span> <span class="string">"goodbye"</span><span class="operator">);</span>
+    <span class="variable">$variant2</span><span class="operator">-&gt;</span><span class="variable">SetDList</span><span class="operator">(\</span><span class="variable">@inarray</span><span class="operator">);</span>
+</pre>
+<p>A null list element on Cache' corresponds to undef on Perl and a value of undef in a Perl array becomes a null list element in Cache'.</p>
+<p>Note carefully that while a Perl array can be unlimited size, Cache' has a maximum list buffer size that is around 32K. (This is not the number of elements in the list but the total memory footprint of the list!)  See Cache' documentation for information about limitation of list size.</p>
+<p>In the above, we see that the %List becomes a reference to an array.</p>
+<p>
+</p>
+<h2><a name="methods">METHODS</a></h2>
+<dl>
+<dt><strong><a name="setlocale" class="item">Intersys::PERLBIND::setlocale($category, $locale)</a></strong></dt>
+
+<dd>
+<pre>
+ see Microsoft MSDN doc
+ set the locale, for instance</pre>
+<pre>
+ Intersys::PERLBIND::setlocale(0, &quot;English&quot;) # 0 stands for LC_ALL</pre>
+<pre>
+ or</pre>
+<pre>
+ Intersys::PERLBIND::setlocale(0, &quot;Russian&quot;) # 0 stands for LC_ALL</pre>
+</dd>
+<dt><strong><a name="set_thread_locale" class="item">Intersys::PERLBIND::set_thread_locale($lcid)</a></strong></dt>
+
+<dd>
+<pre>
+ The argument is the locale id. The id values for different languages can be found in <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/script56/html/vsmsclcid.asp">http://msdn.microsoft.com/library/default.asp?url=/library/en-us/script56/html/vsmsclcid.asp</a></pre>
+<pre>
+ Applications that need to work with locales at run time should call it to ensure proper conversions.</pre>
+</dd>
+<dt><strong><a name="new" class="item">Intersys::PERLBIND::Connection-&gt;new</a></strong></dt>
+
+<dd>
+<p>$conn = Intersys::PERLBIND::Connection-&gt;new($conn_str, $user, $pwd, $timeout)</p>
+<p>Intersys::PERLBIND::Connection-&gt;new returns a connection that can be used to get a database from the Cache' database.</p>
+<p>The format of conn_str is &quot;&lt;host&gt;[&lt;port&gt;]:&lt;namespace&gt;&quot;.  Here is an example: &quot;localhost[1972]:Samples&quot;.</p>
+<p>Intersys::PERLBIND::Connection-&gt;new_secure</p>
+<p>Signature:</p>
+<p>$conn = Intersys::PERLBIND::Connection-&gt;new_secure($conn_str, $srv_principal_name, $security_level, $timeout)</p>
+<p>Description:</p>
+<p>Intersys::PERLBIND::Connection-&gt;new_secure returns the connection proxy that can be used to get the proxy for the Cache' namespace identified by $conn_str. The format of $conn_str is ``&lt;host&gt;[&lt;port&gt;]:&lt;namespace&gt;'', e.g. 'localhost[1972]:Samples'.</p>
+<p>See also:</p>
+<p>Intersys::PERLBIND::Database-&gt;<a href="#new"><code>new()</code></a></p>
+<p>A Kerberos &quot;principal&quot; is an identity that is represented in the Kerberos database, has a permanent secret key that is shared only with the Kerberos KDCs (key distribution centers), can be assigned credentials, and can participate in the Kerberos authentication protocol.</p>
+<p>A &quot;user principal&quot; is associated with a person, and is used to authenticate to services which can then authorize the use of resources, e.g. computer accounts, or Cache' services.</p>
+<p>A &quot;service principal&quot; is associated with a service, and is used to authenticate user principals and can optionally authenticate itself to user principals.  A &quot;service principal name&quot; (such as $srv_principal_name) is the string representation of the name of a service principal, conventionally of the form:</p>
+<p>&lt;service&gt;/&lt;instance&gt;@&lt;REALM&gt;,</p>
+<p>e.g.</p>
+<p><a href="mailto:cache/turbo.iscinternal.com@ISCINTERNAL.COM">cache/turbo.iscinternal.com@ISCINTERNAL.COM</a></p>
+<p>(There are other types of principals too.)</p>
+<p>On Windows, The KDCs are embedded in the domain controllers, and service principal names are associated with domain accounts.</p>
+<p>&quot;Connection security level&quot; ($security_level in the above) is an integer that indicates the client/server network security services that are requested or required.  Values:</p>
+<p>0 - None</p>
+<p>1 - Kerberos client/server mutual authentication, no protection for data</p>
+<p>2 - 1 plus data source and content integrity protection</p>
+<p>3 - 2 plus data encryption</p>
+</dd>
+<dt><strong><a name="is_uni_srv" class="item">is_uni_srv</a></strong></dt>
+
+<dd>
+<p>$is_unicode = $db-&gt;<a href="#is_uni_srv"><code>is_uni_srv()</code></a></p>
+<p>return 1 if UNICODE, 0 if 8-bit Cache'</p>
+</dd>
+<dt><strong><a name="open" class="item">open</a></strong></dt>
+
+<dd>
+<p>$obj = $db-&gt;open($type, $oid, $concurrency, $timeout) opens a object instance from the class named by type and from the oid.</p>
+</dd>
+<dt><strong><a name="openid" class="item">openid</a></strong></dt>
+
+<dd>
+<p>$obj = $db-&gt;openid($type, $id, $concurrency, $timeout) opens an object instance from the class named by type and from the id.</p>
+</dd>
+<dt><strong><a name="create_new" class="item">create_new</a></strong></dt>
+
+<dd>
+<p>$obj = $db-&gt;create_new($type, $init_val) creates a new object instance from the class named by type.  Normally $init_val is undef.</p>
+</dd>
+<dt><strong><a name="run_class_method" class="item">run_class_method</a></strong></dt>
+
+<dd>
+<p>$value = $db-&gt;run_class_method($cl_name, $mtd_name, LIST)</p>
+<p>run_class_method runs the class method named in mtd_name on the database specified by db. The db corresponds to a Cache' namespace.  Arguments are passed in the LIST.  Some of these arguments may be passed by reference depending on the class definition in Cache'. Return values correspond to the return values from the Cache' method</p>
+</dd>
+<dt><strong><a name="run_obj_method" class="item">run_obj_method</a></strong></dt>
+
+<dd>
+<p>$value = $object-&gt;run_obj_method($mtd_name, LIST)</p>
+<p>run_obj_method runs the method named in mtd_name on the object specified by obj.  Arguments are passed in the LIST.  Some of these arguments may be passed by reference depending on the class definition in Cache'. Return values correspond to the return values from the Cache' method</p>
+</dd>
+<dt><strong><a name="get" class="item">get</a></strong></dt>
+
+<dd>
+<p>$value = $obj-&gt;<a href="#get"><code>get($prop_name)</code></a> is used to get a property from an object.</p>
+</dd>
+<dt><strong><a name="set" class="item">set</a></strong></dt>
+
+<dd>
+<p>$obj-&gt;set($prop_name, $val) is used to set a prop_name to val.</p>
+</dd>
+<dt><strong><a name="get_properties" class="item">get_properties</a></strong></dt>
+
+<dd>
+<p>@props = $personobj-&gt;<a href="#get_properties"><code>get_properties()</code></a>;</p>
+<p>The above returns the names of properites in a list in list context and in scalar contexts returns the number of properties.  Private and multidimensional properties are not returned.  Private and multidimensional properties are not accessible through the Perl binding.</p>
+</dd>
+<dt><strong><a name="get_methods" class="item">get_methods</a></strong></dt>
+
+<dd>
+<p>@methods = $personobj-&gt;<a href="#get_methods"><code>get_methods()</code></a>;</p>
+<p>The above returns the names of methods in a list in list context and in scalar context returns the number of methods.</p>
+</dd>
+<dt><strong>PDATE_STRUCTPtr-&gt;<code>new()</code></strong></dt>
+
+<dd>
+<p>used to create a new date</p>
+</dd>
+<dt><strong><a name="get_year" class="item">$year = $date-&gt;<code>get_year()</code></a></strong></dt>
+
+<dd>
+<p>return year</p>
+</dd>
+<dt><strong><a name="get_month" class="item">$month = $date-&gt;<code>get_month()</code></a></strong></dt>
+
+<dd>
+<p>return month</p>
+</dd>
+<dt><strong><a name="get_day" class="item">$day = $date-&gt;<code>get_day()</code></a></strong></dt>
+
+<dd>
+<p>return day</p>
+</dd>
+<dt><strong><a name="set_year" class="item">$date-&gt;<code>set_year($year)</code></a></strong></dt>
+
+<dd>
+<p>set year</p>
+</dd>
+<dt><strong><a name="set_month" class="item">$date-&gt;<code>set_month($month)</code></a></strong></dt>
+
+<dd>
+<p>set month</p>
+</dd>
+<dt><strong><a name="set_day" class="item">$date-&gt;<code>set_day($day)</code></a></strong></dt>
+
+<dd>
+<p>set day</p>
+</dd>
+<dt><strong><a name="tostring" class="item">$stringrep = $date-&gt;<code>toString()</code></a></strong></dt>
+
+<dd>
+<p>convert to string</p>
+</dd>
+<dt><strong>PTIME_STRUCTPtr-&gt;<code>new()</code></strong></dt>
+
+<dd>
+<p>used to create a new time</p>
+</dd>
+<dt><strong><a name="get_hour" class="item">$hour = $time-&gt;<code>get_hour()</code></a></strong></dt>
+
+<dd>
+<p>return hour</p>
+</dd>
+<dt><strong><a name="get_minute" class="item">$minute = $time-&gt;<code>get_minute()</code></a></strong></dt>
+
+<dd>
+<p>return minute</p>
+</dd>
+<dt><strong><a name="get_second" class="item">$second = $time-&gt;<code>get_second()</code></a></strong></dt>
+
+<dd>
+<p>return second</p>
+</dd>
+<dt><strong>$stringrep = $time-&gt;<code>toString()</code></strong></dt>
+
+<dd>
+<p>convert to string</p>
+</dd>
+<dt><strong><a name="set_hour" class="item">$time-&gt;<code>set_hour($hour)</code></a></strong></dt>
+
+<dd>
+<p>set hour</p>
+</dd>
+<dt><strong><a name="set_minute" class="item">$time-&gt;<code>set_minute($minute)</code></a></strong></dt>
+
+<dd>
+<p>set minute</p>
+</dd>
+<dt><strong><a name="set_second" class="item">$time-&gt;<code>set_second($second)</code></a></strong></dt>
+
+<dd>
+<p>set second</p>
+</dd>
+<dt><strong>PTIMESTAMP_STRUCTPtr-&gt;<code>new()</code></strong></dt>
+
+<dd>
+<p>used to create a new timestamp</p>
+</dd>
+<dt><strong>$year = $timestamp-&gt;<code>get_year()</code></strong></dt>
+
+<dd>
+<p>return year</p>
+</dd>
+<dt><strong>$month = $timestamp-&gt;<code>get_month()</code></strong></dt>
+
+<dd>
+<p>return month</p>
+</dd>
+<dt><strong>$day = $timestamp-&gt;<code>get_day()</code></strong></dt>
+
+<dd>
+<p>return day</p>
+</dd>
+<dt><strong>$stringrep = $timestamp-&gt;<code>toString()</code></strong></dt>
+
+<dd>
+<p>convert to string</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_year($year)</code></strong></dt>
+
+<dd>
+<p>set year</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_month($month)</code></strong></dt>
+
+<dd>
+<p>set month</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_day($day)</code></strong></dt>
+
+<dd>
+<p>set day</p>
+</dd>
+<dt><strong>$hour = $timestamp-&gt;<code>get_hour()</code></strong></dt>
+
+<dd>
+<p>set hour</p>
+</dd>
+<dt><strong>$minute = $timestamp-&gt;<code>get_minute()</code></strong></dt>
+
+<dd>
+<p>get minute</p>
+</dd>
+<dt><strong>$second = $timestamp-&gt;<code>get_second()</code></strong></dt>
+
+<dd>
+<p>get second</p>
+</dd>
+<dt><strong><a name="get_fraction" class="item">$fraction = $timestamp-&gt;<code>get_fraction()</code></a></strong></dt>
+
+<dd>
+<p>get fraction</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_hour($hour)</code></strong></dt>
+
+<dd>
+<p>set hour</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_minute($minute)</code></strong></dt>
+
+<dd>
+<p>set minute</p>
+</dd>
+<dt><strong>$timestamp-&gt;<code>set_second($second)</code></strong></dt>
+
+<dd>
+<p>set second</p>
+</dd>
+<dt><strong><a name="set_fraction" class="item">$timestamp-&gt;<code>set_fraction($fraction)</code></a></strong></dt>
+
+<dd>
+<p>set fraction</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="export">EXPORT</a></h2>
+<p>None.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Copyright 2005, InterSystems Corporation</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Cache' documentation</p>
+
+</body>
+
+</html>

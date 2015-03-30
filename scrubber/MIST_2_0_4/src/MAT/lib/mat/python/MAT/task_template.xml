@@ -1,0 +1,139 @@
+<task name="obligatory" visible="optional" parent="optional"
+      class="optional">
+  <doc_enhancement_class _xmlnode_count="?" _xmlnode_collecttextchildren="yes"/>
+  <java_subprocess_parameters _xmlnode_count="?"
+                              stack_size="optional"
+                              heap_size="optional"/>
+  <web_customization _xmlnode_count="?"
+                     display_config="optional"
+                     inherit_js="optional"
+                     inherit_css="optional"
+                     alphabetize_labels="optional"
+                     tokenless_autotag_delimiters="optional,force_unicode"
+                     text_right_to_left="optional">
+    <js _xmlnode_collecttextchildren="yes"
+        _xmlnode_count="*"/>
+    <css _xmlnode_collecttextchildren="yes"
+         _xmlnode_count="*"/>
+    <short_name _xmlnode_collecttextchildren="yes" _xmlnode_count="?"/>
+    <long_name _xmlnode_collecttextchildren="yes" _xmlnode_count="?"/>
+  </web_customization>
+  <default_model _xmlnode_count="?" _xmlnode_collecttextchildren="yes"/>
+  <model_config _xmlnode_count="*" 
+                class="obligatory" config_name="optional">
+    <build_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+      <setting _xmlnode_count="*">
+        <name _xmlnode_collecttextchildren="yes"/>
+        <value _xmlnode_collecttextchildren="yes"/>
+      </setting>
+    </build_settings>
+  </model_config>
+  <workspace _xmlnode_count="?"
+             inherit_operations="optional">
+    <operation _xmlnode_count="+"
+               name="obligatory">
+      <settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+        <setting _xmlnode_count="*">
+          <name _xmlnode_collecttextchildren="yes"/>
+          <value _xmlnode_collecttextchildren="yes"/>
+        </setting>
+      </settings>
+    </operation>
+  </workspace>
+  <step_implementations _xmlnode_count="?">
+    <step _xmlnode_count="*" name="obligatory" class="obligatory"
+          workflows="optional">
+      <create_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+        <setting _xmlnode_count="*">
+          <name _xmlnode_collecttextchildren="yes"/>
+          <value _xmlnode_collecttextchildren="yes"/>
+        </setting>
+      </create_settings>
+    </step>
+  </step_implementations>
+  <settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+    <setting _xmlnode_count="*">
+      <name _xmlnode_collecttextchildren="yes"/>
+      <value _xmlnode_collecttextchildren="yes"/>
+    </setting>
+  </settings>
+  <workflows inherit_all="optional" inherit="optional">
+    <workflow _xmlnode_count="*" name="obligatory"
+              hand_annotation_available_at_end="optional"
+              hand_annotation_available_at_beginning="optional">
+      <ui_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+        <setting _xmlnode_count="*">
+          <name _xmlnode_collecttextchildren="yes"/>
+          <value _xmlnode_collecttextchildren="yes"/>
+        </setting>
+      </ui_settings>
+      <step _xmlnode_count="*" name="obligatory"
+            pretty_name="optional"
+            hand_annotation_available="optional"
+            proxy_for_steps="optional"
+            by_hand="optional">
+         <create_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+           <setting _xmlnode_count="*">
+             <name _xmlnode_collecttextchildren="yes"/>
+             <value _xmlnode_collecttextchildren="yes"/>
+           </setting>
+         </create_settings>
+         <run_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+           <setting _xmlnode_count="*">
+             <name _xmlnode_collecttextchildren="yes"/>
+             <value _xmlnode_collecttextchildren="yes"/>
+           </setting>
+         </run_settings>
+         <ui_settings _xmlnode_wildcardattrs="yes" _xmlnode_count="?">
+           <setting _xmlnode_count="*">
+             <name _xmlnode_collecttextchildren="yes"/>
+             <value _xmlnode_collecttextchildren="yes"/>
+           </setting>
+         </ui_settings>
+      </step>
+    </workflow>
+  </workflows>
+  <!-- may be temporary; it's a comma-delimited sequence of categories or
+       descriptor names. We may just get rid of inheritance. For the time
+       being, we have to ensure that not finding one of the elements doesn't fail. -->
+  <annotation_set_descriptors all_annotations_known="optional" inherit="optional" _xmlnode_count="?">
+    <!-- you can assign a category while you're importing. You might be using the parent
+         just for inheritance information, so you don't need any children. -->
+    <annotation_set_descriptor category="optional" _xmlnode_import="asd_template.xml" _xmlnode_count="*"/>
+  </annotation_set_descriptors>
+  <!-- annotation_display inheritance piggybacks off inheritance for the
+       annotation_set_descriptors -->
+  <annotation_display _xmlnode_count="?">
+    <!-- label is either the effective label or the label -->
+    <!-- css used to be obligatory, but it makes no sense for spanless annotations -->
+    <label name="obligatory" css="optional" accelerator="optional"
+           presented_name="optional" edit_immediately="optional" _xmlnode_count="*"/>
+    <!-- this is for special handling for a given attribute. We start with
+         distinguishing between long strings and short strings. -->
+    <attribute name="obligatory" of_annotation="obligatory" editor_style="optional"
+               read_only="optional"
+               custom_editor="optional" custom_editor_is_multiattribute="optional"
+               custom_editor_button_label="optional" url_link="optional"
+               _xmlnode_count="*"/>
+    <!-- this used to be tag_group; otherwise unchanged. -->
+    <label_group name="obligatory" _xmlnode_count="*" children="obligatory"
+                 css="optional"/>
+  </annotation_display>
+  <!-- we still have to permit wildcard parameters. -->
+  <similarity_profile _xmlnode_count="*" name="optional">
+    <stratum _xmlnode_count="*" true_labels="obligatory"/>
+    <tag_profile _xmlnode_count="*" true_labels="obligatory">
+      <attr_equivalences name="obligatory" attrs="obligatory" _xmlnode_count="*"/>
+      <dimension _xmlnode_count="+" name="obligatory" weight="obligatory" method="optional"
+                 aggregator_method="optional" param_digester_method="optional"
+                 _xmlnode_wildcardattrs="yes"/>
+    </tag_profile>
+  </similarity_profile>
+  <score_profile _xmlnode_count="*" name="optional">
+    <!-- this is IN ADDITION to <all> -->
+    <aggregation name="obligatory" true_labels="obligatory" _xmlnode_count="*"/>
+    <attr_decomposition true_labels="obligatory" attrs="obligatory" _xmlnode_count="*"/>
+    <partition_decomposition true_labels="obligatory" method="obligatory" _xmlnode_count="*"/>
+    <label_limitation true_labels="obligatory" _xmlnode_count="?"/>
+  </score_profile>    
+</task>

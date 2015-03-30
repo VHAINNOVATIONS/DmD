@@ -1,0 +1,6 @@
+Revision history for Perl extension Intersys::PERLBIND.
+
+0.01  Fri Dec 13 17:04:02 2002
+	- original version; created by h2xs 1.22 with options
+		-A -n Intersys::PERLBIND
+

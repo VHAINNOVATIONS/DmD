@@ -1,0 +1,61 @@
+<experiment dir="optional" task="obligatory">
+  <binding _xmlnode_count="*" name="obligatory" value="obligatory"/>
+  <workspace_corpora _xmlnode_count="*" dir="optional"
+                     workspace_dir="obligatory"
+                     document_statuses="optional"
+                     users="optional"
+                     include_unassigned="optional"
+                     basename_sets="optional"
+                     basename_patterns="optional">
+    <workspace_corpus _xmlnode_count="+"
+                      name="obligatory"
+                      document_statuses="optional"
+                      users="optional"
+                      include_unassigned="optional"
+                      basename_sets="optional"
+                      basename_patterns="optional"
+                      use_remainder="optional">
+      <size _xmlnode_count="?" max_size="optional"
+            truncate_document_list="optional"/>
+      <partition _xmlnode_count="*" name="obligatory" fraction="obligatory"/>
+      <fixed_partition _xmlnode_count="*" name="obligatory" size="obligatory"/>
+    </workspace_corpus>
+  </workspace_corpora>
+  <corpora _xmlnode_count="*" dir="optional">
+    <prep _xmlnode_count="?" _xmlnode_wildcardattrs="yes"/>
+    <size _xmlnode_count="?" max_size="optional"
+          truncate_document_list="optional"/>
+    <partition _xmlnode_count="*" name="obligatory" fraction="obligatory"/>
+    <fixed_partition _xmlnode_count="*" name="obligatory" size="obligatory"/>
+    <corpus _xmlnode_count="+" name="obligatory"
+            source_corpus_dir="optional">
+      <pattern _xmlnode_count="*" _xmlnode_collecttextchildren="yes"/>
+    </corpus>
+  </corpora>
+  <model_sets _xmlnode_count="*" dir="optional">
+    <build_settings _xmlnode_count="?"
+                    config_name="optional"
+                    model_class="optional"
+                    _xmlnode_wildcardattrs="yes">
+      <iterator _xmlnode_count="*" type="obligatory" _xmlnode_wildcardattrs="yes"/>
+    </build_settings>
+    <corpus_settings _xmlnode_count="?" size="optional">
+      <iterator _xmlnode_count="*" type="obligatory" _xmlnode_wildcardattrs="yes"/>
+    </corpus_settings>
+    <model_set _xmlnode_count="+" name="optional">
+      <training_corpus _xmlnode_count="+" corpus="obligatory"
+                       partition="optional"/>
+    </model_set>
+  </model_sets>
+  <runs _xmlnode_count="*" dir="optional">    
+    <run_settings>
+      <prep_args _xmlnode_wildcardattrs="yes" _xmlnode_count="?"/>
+      <args _xmlnode_wildcardattrs="yes"/>
+      <score_args gold_only="optional" similarity_profile="optional" score_profile="optional" _xmlnode_count="?"/>
+      <iterator _xmlnode_count="*" type="obligatory" _xmlnode_wildcardattrs="yes"/>
+    </run_settings>
+    <run _xmlnode_count="+" name="obligatory" model="obligatory">
+      <test_corpus _xmlnode_count="+" corpus="obligatory" partition="optional"/>
+    </run>
+  </runs>
+</experiment>

@@ -1,0 +1,332 @@
+Last login: Tue Jan 20 10:08:29 2015 from 152.130.8.201
+
+Node: I0009VSTLNX-2, Instance: CACHEINV
+ 
+CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A  CPRS 30A   CPRS 30A   CPRS 30A  CPRS 30A  CPRS 30A  CPRS 30A  CPRS 30A
+ 
+   *************************************************************************
+ 
+           You have accessed the CPRS 30A  Cache Account
+             VistaLink is installed in this account
+   Access privilege is based on specified need.  As a user on this system,
+   YOU are responsible for complying with all security regulations regard-
+   ing access.  YOU are not to share access codes with anyone or to access
+   accounts that do not pertain to YOUR job.  YOU are responsible for
+   maintaining the integrity, confidentiality, and security of all infor-
+   mation contained in this system.
+ 
+   USERs who use this system inappropriately will have their access ter-
+   minated and removed from the system.  
+ 
+   VIEWing this message indicates that YOU agree with the terms of system
+   use.
+ 
+            MISUSE of this system constitutes a Federal Crime.
+ 
+               ********************************************
+ 
+               >>>> CPRS is installed in this account <<<<<
+                 >>   CPRS GUI IS AT VERSION 30.00 BETA   <<
+                     Copy Date:  
+               ********************************************
+ 
+            MISUSE of this system constitutes a Federal Crime.
+ CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A   CPRS 30A
+   *************************************************************************
+
+
+
+Volume set: ROU:CACHEINV  UCI: CPM  Device: /dev/pts/0 (152.130.8.201)
+
+ACCESS CODE: ********
+VERIFY CODE: *********
+
+Good morning PROGRAMMER,ONE
+     You last signed on today at 10:08
+You have 9 new messages. (9 in the 'IN' basket)
+
+Enter '^NML' to read your new messages.[c
+Select TERMINAL TYPE NAME: C-VT100//     
+          Digital Equipment Corporation VT-100 video
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+Select Systems Manager Menu <TEST ACCOUNT> Option: ^programmer options
+
+
+   KIDS   Kernel Installation & Distribution System ...
+   NTEG   Build an 'NTEG' routine for a package
+   PG     Programmer mode
+          Calculate and Show Checksum Values
+          Delete Unreferenced Options
+          Error Processing ...
+          Global Block Count
+          List Global
+          Map Pointer Relations
+          Number base changer
+          Routine Tools ...
+          Test an option not in your menu
+          Verifier Tools Menu ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+Select Programmer Options <TEST ACCOUNT> Option: PG  Programmer mode
+
+CPM> 
+
+CPM>D ^%CD
+
+Namespace: GOLD
+You're in namespace GOLD
+Default directory is /srv/vista/inv/dat1/dat2/
+GOLD>D ^XUP
+
+Setting up programmer environment
+This is a TEST account.
+
+Terminal Type set to: C-VT320
+
+You have 118 new messages.
+Select OPTION NAME: S DUZ=1 ??
+
+Select OPTION NAME:    EVE     Systems Manager Menu
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Systems Manager Menu1 Option: D ^%CD  ??
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Systems Manager Menu1 Option: GOLD  ??
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Systems Manager Menu1 Option: D ^XUP
+
+    1    XUPS ASSESSMENT DETAIL  [XUPS ASSESSMENT DETAIL] 
+    2    XUPS ASSESSMENT STATS  [XUPS ASSESSMENT STATS] 
+    3    XUPS PREUPDATE NPF REPORTS  [XUPS PREUPDATE NPF REPORTS] 
+    4    XUPS UPDATE NEW PERSON FILE DATA  [XUPS UPDATE NEW PERSON FILE] 
+
+Type '^' to stop, or choose a number from 1 to 4 :S DUZ=1  ??
+
+
+Type '^' to stop, or choose a number from 1 to 4 :  ??
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Systems Manager Menu1 Option: 
+
+[7mYou've got PRIORITY mail!
+
+[27m
+
+Do you really want to halt? YES// ^programmer options
+
+Select Systems Manager Menu1 Option: PG  ??
+
+
+          Core Applications ...
+          Device Management ...
+   FM     VA FileMan ...
+          Menu Management ...
+          Programmer Options ...
+          Operations Management ...
+          Spool Management ...
+          Information Security Officer Menu ...
+          Taskman Management ...
+          HL7 Main Menu ...
+          User Management ...
+          Application Utilities ...
+          Capacity Planning ...
+          Manage Mailman ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Systems Manager Menu1 Option: ^programmer options
+
+
+   KIDS   Kernel Installation & Distribution System ...
+   NTEG   Build an 'NTEG' routine for a package
+   PG     Programmer mode
+          Calculate and Show Checksum Values
+          Delete Unreferenced Options
+          Error Processing ...
+          Global Block Count
+          List Global
+          Map Pointer Relations
+          Number base changer
+          Routine Tools ...
+          Test an option not in your menu
+          Verifier Tools Menu ...
+
+
+You have PENDING ALERTS
+          Enter  "VA to jump to VIEW ALERTS option
+
+
+[7mYou've got PRIORITY mail!
+
+[27m
+Select Programmer Options1 Option: PG  Programmer mode
+
+GOLD>^programmer options
+
+^programmer options
+^
+<SYNTAX>
+GOLD>PG
+
+PG
+^
+<SYNTAX>
+GOLD>^programmer options
+
+^programmer options
+^
+<SYNTAX>
+GOLD>PG
+
+PG
+^
+<SYNTAX>
+GOLD>^programmer options
+
+^programmer options
+^
+<SYNTAX>
+GOLD>^programmer options
+
+^programmer options
+^
+<SYNTAX>
+GOLD>PG
+
+PG
+^
+<SYNTAX>
+GOLD>^programmer options
+
+^programmer options
+^
+<SYNTAX>
+GOLD>PG
+
+PG
+^
+<SYNTAX>
+GOLD>

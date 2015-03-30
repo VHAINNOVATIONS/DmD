@@ -1,0 +1,145 @@
+DeID version 1.1 Change Log
+============================
+
+DeID version 1.1 is now compatible with Perl 5.10. Additionally, DeID
+version 1.1 fixed several bugs in DeID version 1.0.  For more details,
+please see the description below.
+
+Bug Fixes and Changes
+=====================
+
+* Modified code to be compatible with Perl 5.10. 
+
+* Fixed bugs that caused the scrubbed notes from DeID to give
+incorrect/garbled output in the .res file (scrubbed notes from
+DeID). Under DeID version 1.0, two nursing notes (out of the 2,434
+notes) in the gold standard corpus were affected by this bug. If you
+had previously downloaded version 1.0, and would like to know which
+notes in the gold standard were affected by this bug, the two notes
+were note 7 for patient 54 (with header line
+"START_OF_RECORD=54||||7||||") and note 18 for patient 144 (with
+header line "START_OF_RECORD=144||||18||||").
+
+
+* Fixed bugs that caused DeID to mistakenly report certain PHIs as a
+date PHI in the scrubbed notes.  More specifically, PHI locations are
+encoded as a key that consists of a number sequence that corresponds
+to the start and end locations of the PHI within the text.  In the
+rare occasion that a PHI's location key matches that of a Date PHI
+tag's location key (as a subsequence), DeID will mistakenly report the
+PHI as a date PHI.
+ 
+* Fixed date shift bugs for certain date formats.  The following types
+of date patterns should now be date shifted correctly in the scrubbed
+output when running in the output mode:
+
+- April 1st, 2002 
+- April 1st 
+- April 4th, 2002. 
+- April 4th 2002
+- April 5th, 2002 
+- 2nd of April 
+- 2nd of Apr.
+- 20th Oct., 1989. 
+- 20th Oct., 89. 
+- 20th of Oct. 1989.  
+- 20th Oct, 1989. 
+- 20th Oct, 89. 
+- 20th of Oct 1989.  
+
+
+* Fixed the problem that prevented the phone filters to identify phone
+  numbers when they run into text. Code modification from phone filter
+  does not change the code's performance on the Gold Standard corpus.
+  
+* More robust pattern recognition on text that are split into multiple
+  lines.  More specifically, lines that begin with blank spaces are no
+  longer considered paragraph separators. Instead, they are considered
+  part of the same paragraph as previous lines.  This allows for
+  better pattern matching for phone numbers and dates that are split
+  into two lines and the second line was padded with blank spaces in
+  the beginning.
+
+
+
+Changes
+========
+
+* Updated the name indicators to include phrases such as "name will
+  be" to better locate newborn names (does not change code's
+  performance on the Gold Standard Corpus).  
+
+
+* Allow the users to set the parameter "Two Digit Year Threshold" in 
+the configuration files.  The parameter is used to determine whether
+to interpret the year as a year in the 1900's or 2000's.
+The threshold must be a 1- or 2-digit number.
+Two digit years > Threshold are  interpreted as in the 1900's
+Two digit years <=  Threshold are interpreted as in the 2000's
+
+In this release,  the "Two Digit Year Threshold" parameter is
+set to 30 in the configuration files (deid-output.config and 
+deid.config) as follows: 
+
+Two Digit Year Threshold = 30
+
+The threshold is set according to the re-identified date range
+that appear in our gold standard corpus. 
+
+
+
+Files Modified (from version 1.0)
+=================================
+
+deid.pl
+deid.config
+deid-output.config
+GSoutput/id.info
+GSoutput/id.res
+GSstats/id.info
+GSstats/id.phi
+doc/DeidUserManual.doc  
+doc/DeidUserManual.pdf
+
+
+Performance of DeID code
+==========================
+
+This version changes the performance of the software on Gold Standard
+only slightly: the number of false positives increased by one (from
+545 in version 1.0 to 546 in current version).  This additional false
+positive is due to the fact that lines that begin with blank spaces
+are no longer considered paragraph separators in the current version.
+
+See below for the current performance.  When running the code in
+performance comparison mode, you should see the following output on
+your screen.
+
+
+*******************************************************************************************************************
+De-Identification Algorithm: Identifies Protected Health Information (PHI) in Discharge Summaries and Nursing Notes
+*******************************************************************************************************************
+
+
+Starting de-identification (version 1.1)...
+
+Running deid in performance comparison mode.
+Using PHI locations in id.deid as comparison. Output files will be:
+id.phi: the PHI locations found by the code.
+id.info: debug info about the PHI locations.
+
+==========================
+
+Num of true positives = 1720
+
+Num of false positives = 546
+
+Num of false negatives = 59
+
+Sensitivity/Recall = 0.967
+
+PPV/Specificity = 0.748
+
+==========================
+
+This document was last updated 6/10/09.

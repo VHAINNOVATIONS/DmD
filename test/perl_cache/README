@@ -1,0 +1,71 @@
+Intersys/PERLBIND version 1.0
+==============================
+
+This module provides Perl programs with an interface to the InterSystems Cache' database.  It allows Perl programs to establish a connection to a database on Cache', create and open objects in the database, manipulate those object's properties, save the objects, run methods on the objects, and run queries.  All Cache' datatypes are supported.  For further information (once the module is installed) type:
+
+perldoc Intersys::PERLBIND
+
+INSTALLATION
+
+To install this module do the following:
+
+In the following we assume, you have installed Cache' into c:\cachesys on Windows or /user/cachesys on LINUX or on the MAC.  You can replace these with your own install dir.
+
+Set up your environment variables to support C compilaton and linking, for instance on Windows call VCVARS32.BAT (for Visual Studio 6.0) or VSVARS32.BAT (for Microsoft Visual Studio .NET 2003) and add cachesys\bin to the PATH. Otherwise linker errors will be reported on the make step.
+
+On LINUX or MAC
+
+   On MAC we assume you are operating at a command line prompt.  Perl binding installation is not done through a GUI but assumes you are at a command line prompt.
+
+   Make sure CACHE_INSTALL_DIR/bin is on your PATH and is also in your LD_LIBRARY_PATH (on LINUX) or in your DYLD_LIBRARY_PATH (on MAC).
+
+   For example (on LINUX),
+
+   export PATH=/usr/cachesys/bin:$PATH
+
+   export LD_LIBRARY_PATH=/usr/cachesys/bin:$LD_LIBRARY_PATH
+
+   For example (on MAC),
+
+   export PATH=/usr/cachesys/bin:$PATH
+
+   export DYLD_LIBRARY_PATH=/usr/cachesys/bin:$DYLD_LIBRARY_PATH
+
+   perl Makefile.PL
+   (You will be prompted for where InterSystems Cache' is installed)
+   (or you can run perl Makefile.PL <dirname> and you will not be prompted, for instance,
+   perl Makefile.PL /usr/cachesys)
+   make
+   (before running make test, please make sure that /usr/cachesys/bin is on your path)
+   make test
+   make install
+
+On Windows
+
+   perl Makefile.PL
+   (You will be prompted for where InterSystems Cache' is installed)
+   (or you can run perl Makefile.PL <dirname> and you will not be prompted, for instance,
+   perl Makefile.PL c:\cachesys)
+   nmake
+   (before running nmake test, please make sure that c:\cachesys\bin is on your path)
+   nmake test
+   nmake install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  You need the Visual C++ 6.0 Compiler from Microsoft or Microsoft Visual Studio .NET 2003 or on LINUX you need the usual gcc.
+
+RUNNING
+
+Note you will need INSTALLDIR\bin in your PATH (or INSTALLDIR/bin) where INSTALLDIR is the place where you've installed Cache'.  It might be c:\cachesys\bin or /usr/cachesys/bin.
+
+COPYRIGHT AND LICENCE
+
+Copyright 2009, InterSystems Corporation
+
+This module and its source code are the intellectual property of InterSystems Corporation.
+
+
+

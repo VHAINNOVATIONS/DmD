@@ -1,0 +1,53 @@
+Ala
+Amer. Samoa
+Ariz
+Ark
+Calif
+Colo
+Conn
+C.Z.
+D.C.
+Del
+Fla
+Ill
+Ind
+Kans
+Mass
+Md
+Mich
+Minn
+Miss
+Mo
+Mont
+N.C.
+N.Dak
+N. Dak
+Nebr
+Nev
+N.H.
+N.J.
+N.Mex
+N. Mex
+N.Y.
+Ohio
+Okla
+Ore
+Oreg
+Pa
+P.R.
+R.I.
+S.C.
+S.Dak
+S. Dak
+Tenn
+Tex
+Utah
+Va.
+V.I.
+Vt
+Wash
+Wis
+Wisc
+W.Va
+W. Va
+Wyo

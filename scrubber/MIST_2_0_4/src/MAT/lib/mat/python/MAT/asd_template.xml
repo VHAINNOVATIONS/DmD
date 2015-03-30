@@ -1,0 +1,17 @@
+<annotation_set_descriptor name="obligatory">
+  <annotation label="obligatory" all_attributes_known="optional"
+              span="optional"
+              _xmlnode_count="*"/>
+  <!-- distinguishing_attribute: yes/no. Currently on the annotation instead. -->
+  <attribute name="obligatory" of_annotation="obligatory"
+             type="optional" aggregation="optional" optional="optional"
+             distinguishing_attribute_for_equality="optional"
+             default_is_text_span="optional" default="optional"
+             _xmlnode_count="*">
+    <choice _xmlnode_collecttextchildren="yes" effective_label="optional" _xmlnode_count="*"/>
+    <range from="optional" to="optional" _xmlnode_count="?"/>
+    <label_restriction label="obligatory" _xmlnode_count="*">
+      <attributes _xmlnode_wildcardattrs="yes" _xmlnode_count="?"/>
+    </label_restriction>
+  </attribute>
+</annotation_set_descriptor>

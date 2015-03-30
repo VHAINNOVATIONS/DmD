@@ -1,0 +1,9 @@
+This distribution is a subportion of the MITRE Annotation Toolkit
+(MAT). In this distribution, you'll find a standalone viewer for
+documents. This viewer is documented in
+web/htdocs/doc/html/standalone_viewer.html. The documents make
+extensive use of the MAT-JSON format (which you'll find described in
+detail in web/htdocs/doc/html/mat_json_format.html). This viewer
+allows you to view single or multiple documents with CSS
+formatting which you can specify. A working example can be found in
+web/examples/standalone_viewer_example.html. 

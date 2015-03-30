@@ -1,0 +1,55 @@
+<!-- This describes the syntax of my document convertor
+     instruction files. -->
+<instructions>
+  <labels _xmlnode_count="*" source_re="optional"
+          source="optional" excluding="optional"
+          excluding_re="optional">
+    <of_attr label="optional" attr="optional"
+             label_re="optional" attr_re="optional"
+             _xmlnode_count="*"/>
+    <with_attrs _xmlnode_wildcardattrs="yes" _xmlnode_count="*"/>
+    <demote target_label="obligatory" target_attr="obligatory"
+            _xmlnode_count="*"/>
+    <apply fn="obligatory" _xmlnode_count="*"/>
+    <discard _xmlnode_count="?"/>
+    <discard_if_null _xmlnode_count="*" attrs="obligatory"/>
+    <discard_failed _xmlnode_count="?"/>
+    <touch _xmlnode_count="*"/>
+    <untouch _xmlnode_count="*"/>
+    <map target="obligatory" _xmlnode_count="*"/>
+    <make_spanless demoted_label="optional" demoted_attr="optional" _xmlnode_count="?"/>
+    <map_attr source="obligatory" target="optional"
+              target_type="optional" target_aggregation="optional"
+              _xmlnode_count="*"/>
+    <promote_attr source="obligatory" _xmlnode_count="*"/>    
+    <discard_attrs attrs="obligatory" _xmlnode_count="*"/>
+    <split_attr attr="obligatory" target_attrs="obligatory" _xmlnode_count="*"/>
+    <join_attrs attr="obligatory" source_attrs="obligatory"
+                value_aggregation="obligatory" _xmlnode_count="*"/>
+    <set_attr attr="obligatory" value="obligatory" value_type="optional"
+              value_aggregation="optional"
+              _xmlnode_count="*"/>
+    <attrs source="optional" source_re="optional"
+           excluding="optional" excluding_re="optional"
+           _xmlnode_count="*">
+      <promote _xmlnode_count="?"/>
+      <discard _xmlnode_count="?"/>
+      <split target_attrs="obligatory" _xmlnode_count="?"/>
+      <discard_annot_if_null _xmlnode_count="?"/>
+      <discard_annot _xmlnode_count="?"/>
+      <values source="optional" source_re="optional"
+              excluding="optional" excluding_re="optional"
+              _xmlnode_count="*">
+        <promote _xmlnode_count="?"/>
+        <discard _xmlnode_count="?"/>
+        <map target="optional" target_value="optional"
+             target_type="optional" target_aggregation="optional"
+             _xmlnode_count="*"/>
+      </values>
+      <map target="optional"
+           target_type="optional" target_aggregation="optional"
+           _xmlnode_count="*"/>
+    </attrs>
+  </labels>
+  <discard_untouched _xmlnode_count="*"/>
+</instructions>

@@ -1,0 +1,3 @@
+/home/bciv/dmd/scrubber/MIST_2_0_4/src/tasks/core
+/home/bciv/dmd/scrubber/MIST_2_0_4/src/tasks/AMIA
+/home/bciv/dmd/scrubber/MIST_2_0_4/src/tasks/HIPAA

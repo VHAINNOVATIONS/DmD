@@ -1,0 +1,12 @@
+<demo name="obligatory">
+  <description _xmlnode_collecttextchildren="yes"/>
+  <activity _xmlnode_count="+" name="obligatory" enable_blank_document="optional">
+    <description _xmlnode_collecttextchildren="yes"/>
+    <engine_settings task="obligatory" workflow="obligatory"
+                     steps="obligatory" _xmlnode_wildcardattrs="yes"/>
+    <sample_document _xmlnode_count="*" description="obligatory"
+                     file_type="obligatory" encoding="optional"
+                     editable="optional"
+                     relative_location="obligatory"/>
+  </activity>
+</demo>

@@ -1,0 +1,15 @@
+This project depends upon the following 3rd party components:
+
+Database
+MarkLogic 7
+
+Scrubber
+deid
+MITRE MIST
+
+Importer
+Java JRE 1.6
+Apache Hadoop
+MarkLogic Content Pump (MLCP)
+
+

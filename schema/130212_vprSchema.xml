@@ -1,0 +1,2952 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="ns://va.gov/2012/ip401"
+           xmlns:on="ns://va.gov/2012/ip401/ontology" xmlns:geo="http://marklogic.com/geocode" xmlns:va="ns://va.gov/2012/ip401">
+    <xs:import namespace="http://marklogic.com/geocode" schemaLocation="geo.xsd"/>
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+    <xs:import namespace="ns://va.gov/2012/ip401/ontology" schemaLocation="on.xsd"/>
+    <xs:element name="vpr">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:results"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="results">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:version"/>
+                <xs:element ref="va:timeZone"/>
+                <xs:element ref="va:demographics"/>
+                <xs:element ref="va:reactions"/>
+                <xs:element ref="va:problems"/>
+                <xs:element ref="va:vitals"/>
+                <xs:element ref="va:labs"/>
+                <xs:element ref="va:meds"/>
+                <xs:element ref="va:immunizations"/>
+                <xs:element ref="va:observations"/>
+                <xs:element ref="va:visits"/>
+                <xs:element ref="va:appointments"/>
+                <xs:element ref="va:documents"/>
+                <xs:element ref="va:procedures"/>
+                <xs:element ref="va:consults"/>
+                <xs:element ref="va:flags"/>
+                <xs:element ref="va:healthFactors"/>
+                <xs:element ref="va:skinTests"/>
+                <xs:element ref="va:exams"/>
+                <xs:element ref="va:educationTopics"/>
+                <xs:element ref="va:insurancePolicies"/>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="va:orders"/>
+                    <xs:element ref="va:patientTreatments"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="timeZone" use="required" type="xs:integer"/>
+            <xs:attribute name="version" use="required" type="xs:decimal"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="version" type="xs:decimal"/>
+    <xs:element name="timeZone" type="xs:integer"/>
+    <xs:element name="demographics">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:patient"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="problems">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:problem"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="problem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:acuity"/>
+                <xs:element minOccurs="0" ref="va:comments"/>
+                <xs:element ref="va:entered"/>
+                <xs:element minOccurs="0" ref="va:exposures"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:icd"/>
+                <xs:element ref="va:id"/>
+                <xs:element minOccurs="0" ref="va:location"/>
+                <xs:element ref="va:problem-name"/>
+                <xs:element minOccurs="0" ref="va:onset"/>
+                <xs:element ref="va:provider"/>
+                <xs:element minOccurs="0" ref="va:removed"/>
+                <xs:element minOccurs="0" ref="va:resolved"/>
+                <xs:element minOccurs="0" ref="va:sc"/>
+                <xs:element minOccurs="0" ref="va:service"/>
+                <xs:element ref="va:status"/>
+                <xs:element minOccurs="0" ref="va:unverified"/>
+                <xs:element ref="va:updated"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="acuity">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:acuity-code"/>
+                <xs:element ref="va:acuity-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:NCName"/>
+            <xs:attribute name="name" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="acuity-code" type="xs:NCName"/>
+    <xs:element name="acuity-name" type="xs:NCName"/>
+    <xs:element name="problem-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="onset">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removed">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="resolved">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="unverified">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updated">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vitals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:vital"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vital">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:entered"/>
+                <xs:element ref="va:facility"/>
+                <xs:element minOccurs="0" ref="va:location"/>
+                <xs:element ref="va:measurements"/>
+                <xs:element ref="va:taken"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="measurements">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:measurement"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="measurement">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:vuid"/>
+                <xs:element ref="va:measurement-name"/>
+                <xs:element ref="va:value"/>
+                <xs:element minOccurs="0" ref="va:units"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:metricValue"/>
+                    <xs:element ref="va:metricUnits"/>
+                </xs:sequence>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:high"/>
+                    <xs:element ref="va:low"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:qualifiers"/>
+            </xs:sequence>
+            <xs:attribute name="high"/>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+            <xs:attribute name="low"/>
+            <xs:attribute name="metricUnits" type="xs:NCName"/>
+            <xs:attribute name="metricValue" type="xs:decimal"/>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="units"/>
+            <xs:attribute name="value" use="required"/>
+            <xs:attribute name="vuid" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="measurement-name" type="xs:string"/>
+    <xs:element name="metricValue" type="xs:decimal"/>
+    <xs:element name="metricUnits" type="xs:NCName"/>
+    <xs:element name="qualifiers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:qualifier"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="qualifier">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:qualifier-name"/>
+                <xs:element minOccurs="0" ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="vuid" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="qualifier-name" type="xs:string"/>
+    <xs:element name="taken">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="labs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:lab"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="lab">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:collected"/>
+                <xs:element minOccurs="0" ref="va:comment"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:groupName"/>
+                <xs:element minOccurs="0" ref="va:high"/>
+                <xs:element ref="va:id"/>
+                <xs:element minOccurs="0" ref="va:interpretation"/>
+                <xs:element minOccurs="0" ref="va:labOrderID"/>
+                <xs:element ref="va:localName"/>
+                <xs:element minOccurs="0" ref="va:loinc"/>
+                <xs:element minOccurs="0" ref="va:low"/>
+                <xs:element minOccurs="0" ref="va:orderID"/>
+                <xs:element minOccurs="0" ref="va:result"/>
+                <xs:element ref="va:resulted"/>
+                <xs:element minOccurs="0" ref="va:sample"/>
+                <xs:element ref="va:specimen"/>
+                <xs:element ref="va:status"/>
+                <xs:element ref="va:test"/>
+                <xs:element ref="va:type"/>
+                <xs:element minOccurs="0" ref="va:units"/>
+                <xs:element minOccurs="0" ref="va:vuid"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="collected">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="labOrderID">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="localName">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="loinc">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="resulted">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sample">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="specimen">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:specimen-code"/>
+                <xs:element ref="va:specimen-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:NMTOKEN"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="specimen-code" type="xs:NMTOKEN"/>
+    <xs:element name="specimen-name" type="xs:string"/>
+    <xs:element name="test">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="meds">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:med"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="med">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:currentProvider"/>
+                <xs:element minOccurs="0" ref="va:daysSupply"/>
+                <xs:element minOccurs="0" ref="va:doses"/>
+                <xs:element minOccurs="0" ref="va:expires"/>
+                <xs:element ref="va:facility"/>
+                <xs:element minOccurs="0" ref="va:fills"/>
+                <xs:element minOccurs="0" ref="va:fillCost"/>
+                <xs:element minOccurs="0" ref="va:fillsAllowed"/>
+                <xs:element minOccurs="0" ref="va:fillsRemaining"/>
+                <xs:element minOccurs="0" ref="va:form"/>
+                <xs:element ref="va:id"/>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="va:ivLimit"/>
+                    <xs:element ref="va:lastFilled"/>
+                </xs:choice>
+                <xs:element minOccurs="0" ref="va:location"/>
+                <xs:element ref="va:medID"/>
+                <xs:element ref="va:med-name"/>
+                <xs:element ref="va:orderID"/>
+                <xs:element ref="va:ordered"/>
+                <xs:element ref="va:orderingProvider"/>
+                <xs:element minOccurs="0" ref="va:parent"/>
+                <xs:element minOccurs="0" ref="va:pharmacist"/>
+                <xs:element minOccurs="0" ref="va:prescription"/>
+                <xs:element minOccurs="0" ref="va:products"/>
+                <xs:element minOccurs="0" ref="va:rate"/>
+                <xs:element minOccurs="0" ref="va:ptInstructions"/>
+                <xs:element minOccurs="0" ref="va:quantity"/>
+                <xs:element minOccurs="0" ref="va:routing"/>
+                <xs:element minOccurs="0" ref="va:sig"/>
+                <xs:element minOccurs="0" ref="va:start"/>
+                <xs:element ref="va:status"/>
+                <xs:element minOccurs="0" ref="va:stop"/>
+                <xs:element minOccurs="0" ref="va:supply"/>
+                <xs:element minOccurs="0" ref="va:type"/>
+                <xs:element ref="va:vaStatus"/>
+                <xs:element ref="va:vaType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="currentProvider">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:currentProvider-code"/>
+                <xs:element ref="va:currentProvider-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="currentProvider-code" type="xs:integer"/>
+    <xs:element name="currentProvider-name" type="xs:string"/>
+    <xs:element name="daysSupply">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="doses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:dose"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="expires">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fills">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:fill"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fill">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:fillDate"/>
+                <xs:element ref="va:fillRouting"/>
+                <xs:element minOccurs="0" ref="va:releaseDate"/>
+                <xs:element ref="va:fillQuantity"/>
+                <xs:element ref="va:fillDaysSupply"/>
+                <xs:element minOccurs="0" ref="va:partial"/>
+            </xs:sequence>
+            <xs:attribute name="fillDate" use="required" type="xs:integer"/>
+            <xs:attribute name="fillDaysSupply" use="required" type="xs:integer"/>
+            <xs:attribute name="fillQuantity" use="required" type="xs:integer"/>
+            <xs:attribute name="fillRouting" use="required" type="xs:NCName"/>
+            <xs:attribute name="partial" type="xs:integer"/>
+            <xs:attribute name="releaseDate" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fillDate" type="xs:integer"/>
+    <xs:element name="fillRouting" type="xs:NCName"/>
+    <xs:element name="fillQuantity" type="xs:integer"/>
+    <xs:element name="fillDaysSupply" type="xs:integer"/>
+    <xs:element name="partial" type="xs:integer"/>
+    <xs:element name="fillCost">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fillsAllowed">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fillsRemaining">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="form">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ivLimit">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="lastFilled">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="medID">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="med-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ordered">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="orderingProvider">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:orderingProvider-code"/>
+                <xs:element ref="va:orderingProvider-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="orderingProvider-code" type="xs:integer"/>
+    <xs:element name="orderingProvider-name" type="xs:string"/>
+    <xs:element name="parent">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="pharmacist">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:pharmacist-code"/>
+                <xs:element ref="va:pharmacist-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="pharmacist-code" type="xs:integer"/>
+    <xs:element name="pharmacist-name" type="xs:string"/>
+    <xs:element name="prescription">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="products">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:product"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="product">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:product-code"/>
+                <xs:element ref="va:product-name"/>
+                <xs:element ref="va:role"/>
+                <xs:element minOccurs="0" ref="va:concentration"/>
+                <xs:element minOccurs="0" ref="va:ordItem"/>
+                <xs:element ref="va:class"/>
+                <xs:element ref="va:vaGeneric"/>
+                <xs:element ref="va:vaProduct"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="concentration"/>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="role" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="product-code" type="xs:integer"/>
+    <xs:element name="product-name" type="xs:string"/>
+    <xs:element name="concentration" type="xs:string"/>
+    <xs:element name="ordItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:ordItem-code"/>
+                <xs:element ref="va:ordItem-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ordItem-code" type="xs:integer"/>
+    <xs:element name="ordItem-name" type="xs:string"/>
+    <xs:element name="class">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="va:class-code"/>
+                <xs:element ref="va:class-name"/>
+                <xs:element ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:NCName"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="vuid" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="class-code" type="xs:NCName"/>
+    <xs:element name="class-name" type="xs:string"/>
+    <xs:element name="vaGeneric">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="va:vaGeneric-code"/>
+                <xs:element ref="va:vaGeneric-name"/>
+                <xs:element ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="vuid" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaGeneric-code" type="xs:integer"/>
+    <xs:element name="vaGeneric-name" type="xs:string"/>
+    <xs:element name="vaProduct">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="va:vaProduct-code"/>
+                <xs:element ref="va:vaProduct-name"/>
+                <xs:element ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="vuid" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaProduct-code" type="xs:integer"/>
+    <xs:element name="vaProduct-name" type="xs:string"/>
+    <xs:element name="rate">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ptInstructions">
+        <xs:complexType mixed="true">
+            <xs:attribute ref="xml:space" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="quantity">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="routing">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sig">
+        <xs:complexType mixed="true">
+            <xs:attribute ref="xml:space" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="supply">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaStatus">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaType">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="immunizations">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:immunization"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="immunization">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:administered"/>
+                <xs:element minOccurs="0" ref="va:comment"/>
+                <xs:element ref="va:contraindicated"/>
+                <xs:element minOccurs="0" ref="va:cpt"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element minOccurs="0" ref="va:location"/>
+                <xs:element ref="va:immunization-name"/>
+                <xs:element minOccurs="0" ref="va:provider"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:reaction"/>
+                    <xs:element ref="va:series"/>
+                </xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="administered">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="contraindicated">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cpt">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:cpt-code"/>
+                <xs:element ref="va:cpt-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cpt-code" type="xs:integer"/>
+    <xs:element name="cpt-name" type="xs:string"/>
+    <xs:element name="immunization-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="series">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="observations">
+        <xs:complexType>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="visits">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:visit"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="visit">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="va:arrivalDateTime"/>
+                    <xs:element ref="va:creditStopCode"/>
+                </xs:choice>
+                <xs:element ref="va:dateTime"/>
+                <xs:element minOccurs="0" ref="va:departureDateTime"/>
+                <xs:element minOccurs="0" ref="va:documents"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:location"/>
+                <xs:element ref="va:patientClass"/>
+                <xs:element minOccurs="0" ref="va:providers"/>
+                <xs:element minOccurs="0" ref="va:reason"/>
+                <xs:element minOccurs="0" ref="va:roomBed"/>
+                <xs:element minOccurs="0" ref="va:service"/>
+                <xs:element ref="va:serviceCategory"/>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="va:specialty"/>
+                    <xs:element ref="va:stopCode"/>
+                </xs:choice>
+                <xs:element ref="va:type"/>
+                <xs:element minOccurs="0" ref="va:visitString"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="arrivalDateTime">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="creditStopCode">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:creditStopCode-code"/>
+                <xs:element ref="va:creditStopCode-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="creditStopCode-code" type="xs:integer"/>
+    <xs:element name="creditStopCode-name" type="xs:string"/>
+    <xs:element name="departureDateTime">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="providers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:provider"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="reason">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:reason-code"/>
+                <xs:element minOccurs="0" ref="va:reason-name"/>
+                <xs:element ref="va:narrative"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:NMTOKEN"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="narrative" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="reason-code" type="xs:NMTOKEN"/>
+    <xs:element name="reason-name" type="xs:string"/>
+    <xs:element name="narrative" type="xs:string"/>
+    <xs:element name="roomBed">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="specialty">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="stopCode">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:stopCode-code"/>
+                <xs:element ref="va:stopCode-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="stopCode-code" type="xs:integer"/>
+    <xs:element name="stopCode-name" type="xs:string"/>
+    <xs:element name="appointments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:appointment"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="appointment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:apptStatus"/>
+                <xs:element minOccurs="0" ref="va:clinicStop"/>
+                <xs:element ref="va:dateTime"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:location"/>
+                <xs:element ref="va:patientClass"/>
+                <xs:element ref="va:provider"/>
+                <xs:element minOccurs="0" ref="va:service"/>
+                <xs:element ref="va:serviceCategory"/>
+                <xs:element minOccurs="0" ref="va:type"/>
+                <xs:element ref="va:visitString"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="apptStatus">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="clinicStop">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:clinicStop-code"/>
+                <xs:element ref="va:clinicStop-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="clinicStop-code" type="xs:integer"/>
+    <xs:element name="clinicStop-name" type="xs:string"/>
+    <xs:element name="procedures">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:procedure"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="consults">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:consult"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="consult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:documents"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:consult-name"/>
+                <xs:element minOccurs="0" ref="va:orderID"/>
+                <xs:element ref="va:procedure"/>
+                <xs:element ref="va:requested"/>
+                <xs:element minOccurs="0" ref="va:result"/>
+                <xs:element ref="va:service"/>
+                <xs:element ref="va:status"/>
+                <xs:element ref="va:type"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="consult-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="requested">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="healthFactors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:factor"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="factor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:category"/>
+                <xs:element minOccurs="0" ref="va:comment"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:factor-name"/>
+                <xs:element ref="va:recorded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="factor-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="recorded">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="skinTests">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:skinTest"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="skinTest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:dateTime"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:skinTest-name"/>
+                <xs:element minOccurs="0" ref="va:result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="skinTest-name">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exams">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:exam"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exam">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:dateTime"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:exam-name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exam-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="educationTopics">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:educationTopic"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="educationTopic">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:comment"/>
+                <xs:element ref="va:dateTime"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:educationTopic-name"/>
+                <xs:element minOccurs="0" ref="va:result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="educationTopic-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="insurancePolicies">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:insurancePolicy"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="insurancePolicy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:company"/>
+                <xs:element minOccurs="0" ref="va:effectiveDate"/>
+                <xs:element ref="va:facility"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:groupName"/>
+                    <xs:element ref="va:groupNumber"/>
+                </xs:sequence>
+                <xs:element ref="va:id"/>
+                <xs:element minOccurs="0" ref="va:insuranceType"/>
+                <xs:element minOccurs="0" ref="va:relationship"/>
+                <xs:element ref="va:subscriber"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="company">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:company-code"/>
+                <xs:element ref="va:company-name"/>
+                <xs:element ref="va:address"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="company-code" type="xs:integer"/>
+    <xs:element name="company-name" type="xs:string"/>
+    <xs:element name="effectiveDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="groupNumber">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="insuranceType">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:insuranceType-code"/>
+                <xs:element ref="va:insuranceType-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="insuranceType-code" type="xs:integer"/>
+    <xs:element name="insuranceType-name" type="xs:string"/>
+    <xs:element name="subscriber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:subscriber-code"/>
+                <xs:element ref="va:subscriber-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="subscriber-code">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="subscriber-name" type="xs:string"/>
+    <xs:element name="orders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:order"/>
+            </xs:sequence>
+            <xs:attribute name="total" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="patientTreatments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:patientTreatment"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="patientTreatment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:key"/>
+                <xs:element ref="va:number"/>
+                <xs:element ref="va:patient"/>
+                <xs:element ref="va:admissionDate"/>
+                <xs:element ref="va:internalAdmissionN"/>
+                <xs:element ref="va:wardAtDischarge"/>
+                <xs:element ref="va:facility"/>
+                <xs:element minOccurs="0" ref="va:suffix"/>
+                <xs:element ref="va:status"/>
+                <xs:element minOccurs="0" ref="va:closedOutBy"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:closeOutFile"/>
+                    <xs:element ref="va:closeOutDate"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:releaseDate"/>
+                <xs:element minOccurs="0" ref="va:drg"/>
+                <xs:element ref="va:meansTestIndicator"/>
+                <xs:element ref="va:typeOfRecord"/>
+                <xs:element minOccurs="0" ref="va:sourceOfAdmission"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:admittingEligibility"/>
+                    <xs:element ref="va:transferringFacility"/>
+                    <xs:element ref="va:transferringSuffix"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:sourceOfPayment"/>
+                <xs:element minOccurs="0" ref="va:categoryOfBeneficiary"/>
+                <xs:element ref="va:dischargeDate"/>
+                <xs:element ref="va:dischargeSpecialty"/>
+                <xs:element ref="va:typeOfDisposition"/>
+                <xs:element minOccurs="0" ref="va:dischargeStatus"/>
+                <xs:element minOccurs="0" ref="va:outpatientTreatment"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:vaAuspices"/>
+                    <xs:element ref="va:placeOfDisposition"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:asihDays"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:cpStatus"/>
+                    <xs:element ref="va:principalDiagnosis"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:secondaryDiagnosis"/>
+                <xs:element minOccurs="0" ref="va:treatedForScCondition"/>
+                <xs:element minOccurs="0" ref="va:principalDiagnosisPre1986"/>
+                <xs:element ref="va:los"/>
+                <xs:element ref="va:terminalDigit"/>
+                <xs:element minOccurs="0" ref="va:income"/>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="va:austinAcceptance"/>
+                    <xs:sequence>
+                        <xs:element ref="va:psychiatryClassSeverity"/>
+                        <xs:element ref="va:currentFunctionalAssessment"/>
+                        <xs:element ref="va:highLevelPsychClass"/>
+                    </xs:sequence>
+                </xs:choice>
+                <xs:element maxOccurs="unbounded" ref="va:fld501"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="key">
+        <xs:complexType>
+            <xs:attribute name="Data" use="required" type="xs:integer"/>
+            <xs:attribute name="Field" use="required" type="xs:decimal"/>
+            <xs:attribute name="RecNum" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="number">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="admissionDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="internalAdmissionN">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="wardAtDischarge">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="suffix">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="closedOutBy">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="closeOutFile">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="closeOutDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drg">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="meansTestIndicator">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="typeOfRecord">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sourceOfAdmission">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="admittingEligibility">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transferringFacility">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transferringSuffix">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sourceOfPayment">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="categoryOfBeneficiary">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dischargeDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dischargeSpecialty">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="typeOfDisposition">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dischargeStatus">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="outpatientTreatment">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaAuspices">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="placeOfDisposition">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="asihDays">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cpStatus">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="principalDiagnosis">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="label" use="required"/>
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="secondaryDiagnosis">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="label" use="required"/>
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="principalDiagnosisPre1986">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="los">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="terminalDigit">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="income">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="austinAcceptance">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="currentFunctionalAssessment">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fld501">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:movementRecord"/>
+                <xs:choice>
+                    <xs:element ref="va:physicalMovement"/>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:codingClerk"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="patient">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:address"/>
+                <xs:element ref="va:exposures"/>
+                <xs:element ref="va:flags"/>
+                <xs:element ref="va:fullName"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:sc"/>
+                <xs:element ref="va:scPercent"/>
+                <xs:element ref="va:telecomList"/>
+                <xs:element ref="va:aliases"/>
+                <xs:element ref="va:bid"/>
+                <xs:element ref="va:died"/>
+                <xs:element ref="va:disabilities"/>
+                <xs:element ref="va:dob"/>
+                <xs:element ref="va:ethnicities"/>
+                <xs:element ref="va:facilities"/>
+                <xs:element ref="va:familyName"/>
+                <xs:element ref="va:gender"/>
+                <xs:element ref="va:givenNames"/>
+                <xs:element ref="va:icn"/>
+                <xs:element ref="va:lrdfn"/>
+                <xs:element ref="va:maritalStatus"/>
+                <xs:element ref="va:races"/>
+                <xs:element ref="va:religion"/>
+                <xs:element ref="va:sensitive"/>
+                <xs:element ref="va:ssn"/>
+                <xs:element ref="va:supports"/>
+                <xs:element ref="va:veteran"/>
+            </xs:choice>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="aliases">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:alias"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="alias">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:fullName"/>
+            </xs:sequence>
+            <xs:attribute name="fullName" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bid">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="died">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="disabilities">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:disability"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="disability">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:vaCode"/>
+                <xs:element ref="va:printName"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:sc"/>
+                    <xs:element ref="va:scPercent"/>
+                </xs:sequence>
+            </xs:sequence>
+            <xs:attribute name="printName" use="required"/>
+            <xs:attribute name="sc" type="xs:integer"/>
+            <xs:attribute name="scPercent" type="xs:integer"/>
+            <xs:attribute name="vaCode" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="vaCode" type="xs:integer"/>
+    <xs:element name="printName" type="xs:string"/>
+    <xs:element name="dob">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ethnicities">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:ethnicity"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ethnicity">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="facilities">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:facility"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="familyName">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="gender">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="givenNames">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="icn">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="lrdfn">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="maritalStatus">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="races">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:race"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="race">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="religion">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sensitive">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ssn">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="supports">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:support"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="support">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:contactType"/>
+                <xs:element ref="va:support-name"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:relationship"/>
+                    <xs:element ref="va:address"/>
+                    <xs:element ref="va:telecomList"/>
+                </xs:sequence>
+            </xs:sequence>
+            <xs:attribute name="contactType" use="required" type="xs:NCName"/>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="relationship" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="contactType" type="xs:NCName"/>
+    <xs:element name="support-name" type="xs:string"/>
+    <xs:element name="veteran">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="reactions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:allergy"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:reaction"/>
+            </xs:sequence>
+            <xs:attribute name="total" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="allergy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:assessment"/>
+                <xs:element minOccurs="0" ref="va:comments"/>
+                <xs:element minOccurs="0" ref="va:drugClasses"/>
+                <xs:element minOccurs="0" ref="va:drugIngredients"/>
+                <xs:element minOccurs="0" ref="va:entered"/>
+                <xs:element ref="va:facility"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:id"/>
+                    <xs:element ref="va:localCode"/>
+                    <xs:element ref="va:mechanism"/>
+                    <xs:element ref="va:allergy-name"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:reactions"/>
+                <xs:element minOccurs="0" ref="va:severity"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:source"/>
+                    <xs:element ref="va:type"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:verified"/>
+                <xs:element minOccurs="0" ref="va:vuid"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="assessment">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drugClasses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:drugClass"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drugClass">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:drugClass-name"/>
+                <xs:element ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="vuid" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drugClass-name" type="xs:string"/>
+    <xs:element name="drugIngredients">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:drugIngredient"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drugIngredient">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:drugIngredient-name"/>
+                <xs:element ref="va:vuid"/>
+            </xs:sequence>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="vuid" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="drugIngredient-name" type="xs:string"/>
+    <xs:element name="localCode">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mechanism">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="allergy-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="severity">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="source">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="verified">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="comments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:comment"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="entered">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exposures">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:exposure"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exposure">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="facility">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:domain"/>
+                <xs:element ref="va:facility-code"/>
+                <xs:element ref="va:facility-name"/>
+                <xs:element ref="va:homeSite"/>
+                <xs:element ref="va:latestDate"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:decimal"/>
+            <xs:attribute name="domain" type="xs:NCName"/>
+            <xs:attribute name="homeSite" type="xs:integer"/>
+            <xs:attribute name="latestDate" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="value" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="domain" type="xs:NCName"/>
+    <xs:element name="facility-code" type="xs:decimal"/>
+    <xs:element name="facility-name" type="xs:string"/>
+    <xs:element name="homeSite" type="xs:integer"/>
+    <xs:element name="latestDate" type="xs:integer"/>
+    <xs:element name="icd">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="label"/>
+                    <xs:attribute name="value" use="required" type="xs:NMTOKEN"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="id">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="location">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:location-code"/>
+                <xs:element ref="va:location-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="location-code" type="xs:integer"/>
+    <xs:element name="location-name" type="xs:string"/>
+    <xs:element name="provider">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:role"/>
+                <xs:element ref="va:primary"/>
+                <xs:element ref="va:provider-code"/>
+                <xs:element ref="va:provider-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="primary" type="xs:integer"/>
+            <xs:attribute name="role" type="xs:NCName"/>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="primary" type="xs:integer"/>
+    <xs:element name="provider-code" type="xs:integer"/>
+    <xs:element name="provider-name" type="xs:string"/>
+    <xs:element name="sc">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="service">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="status">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:status-code"/>
+                <xs:element ref="va:status-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:NCName"/>
+            <xs:attribute name="name" type="xs:NCName"/>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="status-code" type="xs:NCName"/>
+    <xs:element name="status-name" type="xs:NCName"/>
+    <xs:element name="vuid">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="value" type="xs:string"/>
+    <xs:element name="units">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="high">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="low">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" type="xs:NMTOKEN"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="comment">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:entered"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:commentText"/>
+                <xs:element ref="va:commentType"/>
+                <xs:element ref="va:enteredBy"/>
+            </xs:choice>
+            <xs:attribute name="commentText"/>
+            <xs:attribute name="commentType" type="xs:NCName"/>
+            <xs:attribute name="entered" type="xs:decimal"/>
+            <xs:attribute name="enteredBy"/>
+            <xs:attribute name="id" type="xs:integer"/>
+            <xs:attribute name="value"/>
+            <xs:attribute ref="xml:space"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="commentText" type="xs:string"/>
+    <xs:element name="commentType" type="xs:NCName"/>
+    <xs:element name="enteredBy" type="xs:string"/>
+    <xs:element name="groupName">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="interpretation">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="orderID">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="result">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="type">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:type-code"/>
+                <xs:element ref="va:type-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:NMTOKEN"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="value" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="type-code" type="xs:NMTOKEN"/>
+    <xs:element name="type-name" type="xs:string"/>
+    <xs:element name="dose">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:dose"/>
+                <xs:element ref="va:units"/>
+                <xs:element ref="va:doseStart"/>
+                <xs:element ref="va:doseStop"/>
+                <xs:element ref="va:noun"/>
+                <xs:element ref="va:route"/>
+                <xs:element ref="va:schedule"/>
+                <xs:element ref="va:unitsPerDose"/>
+            </xs:choice>
+            <xs:attribute name="dose"/>
+            <xs:attribute name="doseStart" type="xs:decimal"/>
+            <xs:attribute name="doseStop" type="xs:decimal"/>
+            <xs:attribute name="noun" type="xs:NCName"/>
+            <xs:attribute name="route"/>
+            <xs:attribute name="schedule"/>
+            <xs:attribute name="units"/>
+            <xs:attribute name="unitsPerDose" type="xs:decimal"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="doseStart" type="xs:decimal"/>
+    <xs:element name="doseStop" type="xs:decimal"/>
+    <xs:element name="noun" type="xs:NCName"/>
+    <xs:element name="route" type="xs:string"/>
+    <xs:element name="schedule" type="xs:string"/>
+    <xs:element name="unitsPerDose" type="xs:decimal"/>
+    <xs:element name="releaseDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="role" type="xs:NCName"/>
+    <xs:element name="start">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="stop">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="encounter">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="reaction">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:vuid"/>
+                <xs:element ref="va:reaction-name"/>
+            </xs:choice>
+            <xs:attribute name="name"/>
+            <xs:attribute name="value" type="xs:NCName"/>
+            <xs:attribute name="vuid" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="reaction-name" type="xs:string"/>
+    <xs:element name="dateTime">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="documents">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:document"/>
+            </xs:sequence>
+            <xs:attribute name="total" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="document">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:category"/>
+                    <xs:element ref="va:clinicians"/>
+                </xs:sequence>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element ref="va:content"/>
+                    <xs:element ref="va:encounter"/>
+                    <xs:element ref="va:facility"/>
+                    <xs:element ref="va:id"/>
+                    <xs:element ref="va:localTitle"/>
+                    <xs:element ref="va:status"/>
+                    <xs:element ref="va:documentClass"/>
+                    <xs:element ref="va:images"/>
+                    <xs:element ref="va:nationalTitle"/>
+                    <xs:element ref="va:nationalTitleRole"/>
+                    <xs:element ref="va:nationalTitleService"/>
+                    <xs:element ref="va:nationalTitleSetting"/>
+                    <xs:element ref="va:nationalTitleSubject"/>
+                    <xs:element ref="va:nationalTitleType"/>
+                    <xs:element ref="va:referenceDateTime"/>
+                </xs:choice>
+                <xs:element minOccurs="0" ref="va:type"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:NMTOKEN"/>
+            <xs:attribute name="localTitle"/>
+            <xs:attribute name="nationalTitle"/>
+            <xs:attribute name="status"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="clinicians">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:clinician"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="clinician">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:clinician-code"/>
+                <xs:element ref="va:clinician-name"/>
+                <xs:element ref="va:role"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:dateTime"/>
+                    <xs:element ref="va:signature"/>
+                </xs:sequence>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="dateTime" type="xs:decimal"/>
+            <xs:attribute name="name" use="required"/>
+            <xs:attribute name="role" use="required" type="xs:NCName"/>
+            <xs:attribute name="signature"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="clinician-code" type="xs:integer"/>
+    <xs:element name="clinician-name" type="xs:string"/>
+    <xs:element name="signature" type="xs:string"/>
+    <xs:element name="documentClass">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="images">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitle">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:nationalTitle-code"/>
+                <xs:element ref="va:nationalTitle-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitle-code" type="xs:integer"/>
+    <xs:element name="nationalTitle-name" type="xs:string"/>
+    <xs:element name="nationalTitleRole">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:nationalTitleRole-code"/>
+                <xs:element ref="va:nationalTitleRole-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitleRole-code" type="xs:integer"/>
+    <xs:element name="nationalTitleRole-name" type="xs:string"/>
+    <xs:element name="nationalTitleService">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:nationalTitleService-code"/>
+                <xs:element ref="va:nationalTitleService-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitleService-code" type="xs:integer"/>
+    <xs:element name="nationalTitleService-name" type="xs:string"/>
+    <xs:element name="nationalTitleSetting">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:nationalTitleSetting-code"/>
+                <xs:element ref="va:nationalTitleSetting-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitleSetting-code" type="xs:integer"/>
+    <xs:element name="nationalTitleSetting-name" type="xs:string"/>
+    <xs:element name="nationalTitleSubject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:nationalTitleSubject-code"/>
+                <xs:element ref="va:nationalTitleSubject-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitleSubject-code" type="xs:integer"/>
+    <xs:element name="nationalTitleSubject-name" type="xs:string"/>
+    <xs:element name="nationalTitleType">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:nationalTitleType-code"/>
+                <xs:element ref="va:nationalTitleType-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="nationalTitleType-code" type="xs:integer"/>
+    <xs:element name="nationalTitleType-name" type="xs:string"/>
+    <xs:element name="referenceDateTime">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="patientClass">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="serviceCategory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:serviceCategory-code"/>
+                <xs:element ref="va:serviceCategory-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:NCName"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="serviceCategory-code" type="xs:NCName"/>
+    <xs:element name="serviceCategory-name" type="xs:string"/>
+    <xs:element name="visitString">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="procedure">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:category"/>
+                <xs:element ref="va:dateTime"/>
+                <xs:element ref="va:documents"/>
+                <xs:element ref="va:encounter"/>
+                <xs:element ref="va:facility"/>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:interpretation"/>
+                <xs:element ref="va:location"/>
+                <xs:element ref="va:order"/>
+                <xs:element ref="va:provider"/>
+                <xs:element ref="va:status"/>
+                <xs:element ref="va:type"/>
+                <xs:element ref="va:case"/>
+                <xs:element ref="va:hasImages"/>
+                <xs:element ref="va:imagingType"/>
+                <xs:element ref="va:opReport"/>
+                <xs:element ref="va:procedure-name"/>
+            </xs:choice>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="case">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="hasImages">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="imagingType">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:imagingType-code"/>
+                <xs:element ref="va:imagingType-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:NCName"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="imagingType-code" type="xs:NCName"/>
+    <xs:element name="imagingType-name" type="xs:string"/>
+    <xs:element name="opReport">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:id"/>
+                <xs:element ref="va:localTitle"/>
+            </xs:sequence>
+            <xs:attribute name="id" use="required" type="xs:integer"/>
+            <xs:attribute name="localTitle" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="procedure-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="flags">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:flag"/>
+            </xs:sequence>
+            <xs:attribute name="total" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="flag">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:approvedBy"/>
+                    <xs:element ref="va:assigned"/>
+                    <xs:element ref="va:category"/>
+                    <xs:element ref="va:content"/>
+                    <xs:element ref="va:id"/>
+                </xs:sequence>
+                <xs:element ref="va:flag-name"/>
+                <xs:choice>
+                    <xs:element ref="va:text"/>
+                    <xs:sequence>
+                        <xs:element ref="va:origSite"/>
+                        <xs:element ref="va:ownSite"/>
+                        <xs:element ref="va:reviewDue"/>
+                        <xs:element ref="va:type"/>
+                    </xs:sequence>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:NCName"/>
+            <xs:attribute name="text"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="approvedBy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:approvedBy-code"/>
+                <xs:element ref="va:approvedBy-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="approvedBy-code" type="xs:integer"/>
+    <xs:element name="approvedBy-name" type="xs:string"/>
+    <xs:element name="assigned">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:decimal">
+                    <xs:attribute name="value" use="required" type="xs:decimal"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="flag-name">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="text" type="xs:string"/>
+    <xs:element name="origSite">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:origSite-code"/>
+                <xs:element ref="va:origSite-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="origSite-code" type="xs:integer"/>
+    <xs:element name="origSite-name" type="xs:string"/>
+    <xs:element name="ownSite">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:ownSite-code"/>
+                <xs:element ref="va:ownSite-name"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ownSite-code" type="xs:integer"/>
+    <xs:element name="ownSite-name" type="xs:string"/>
+    <xs:element name="reviewDue">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="category">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:category-code"/>
+                <xs:element ref="va:category-name"/>
+            </xs:choice>
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="category-code" type="xs:integer"/>
+    <xs:element name="category-name" type="xs:string"/>
+    <xs:element name="address">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:streetLine1"/>
+                <xs:element minOccurs="0" ref="va:city"/>
+                <xs:element minOccurs="0" ref="va:stateProvince"/>
+                <xs:element ref="va:postalCode"/>
+            </xs:sequence>
+            <xs:attribute name="city"/>
+            <xs:attribute name="postalCode" use="required"/>
+            <xs:attribute name="stateProvince"/>
+            <xs:attribute name="streetLine1"/>
+            <xs:attribute ref="geo:lat"/>
+            <xs:attribute ref="geo:lon"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="streetLine1" type="xs:string"/>
+    <xs:element name="city" type="xs:string"/>
+    <xs:element name="stateProvince" type="xs:string"/>
+    <xs:element name="postalCode" type="xs:string"/>
+    <xs:element name="relationship">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="treatedForScCondition">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="psychiatryClassSeverity">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="highLevelPsychClass">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="movementRecord">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:highLevelPsychClass"/>
+                <xs:element ref="va:icd"/>
+                <xs:element ref="va:leaveDays"/>
+                <xs:element ref="va:movementDate"/>
+                <xs:element ref="va:movementRecord"/>
+                <xs:element ref="va:passDays"/>
+                <xs:element ref="va:provider"/>
+                <xs:element ref="va:psychiatryClassSeverity"/>
+                <xs:element ref="va:treatedForScCondition"/>
+                <xs:element ref="va:bedOccupancyStatus"/>
+                <xs:element ref="va:cumulativeLos"/>
+                <xs:element ref="va:currentPsychClassAssess"/>
+                <xs:element ref="va:losInService"/>
+                <xs:element ref="va:losingService"/>
+                <xs:element ref="va:losingSpecialty"/>
+                <xs:element ref="va:specialtyCdr"/>
+                <xs:element ref="va:transferDate"/>
+                <xs:element ref="va:transferDrg"/>
+            </xs:choice>
+            <xs:attribute name="value" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bedOccupancyStatus">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cumulativeLos">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="currentPsychClassAssess">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losInService">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losingService">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losingSpecialty">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="specialtyCdr">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transferDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transferDrg">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="codingClerk">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="va:codingClerk"/>
+            </xs:sequence>
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="physicalMovement">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="va:leaveDays"/>
+                <xs:element ref="va:movementDate"/>
+                <xs:element ref="va:passDays"/>
+                <xs:element ref="va:physicalMovement"/>
+                <xs:element ref="va:dischargeMovement"/>
+                <xs:element ref="va:losingWard"/>
+                <xs:element ref="va:losingWardCdr"/>
+                <xs:element ref="va:losingWardSpecialty"/>
+            </xs:choice>
+            <xs:attribute name="value" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dischargeMovement">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losingWard">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NCName">
+                    <xs:attribute name="value" use="required" type="xs:NCName"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losingWardCdr">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="losingWardSpecialty">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="order">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="va:acknowledgements"/>
+                <xs:choice>
+                    <xs:element ref="va:order-code"/>
+                    <xs:sequence>
+                        <xs:element ref="va:content"/>
+                        <xs:element ref="va:entered"/>
+                        <xs:element ref="va:facility"/>
+                        <xs:element ref="va:group"/>
+                        <xs:element ref="va:id"/>
+                        <xs:element ref="va:location"/>
+                    </xs:sequence>
+                </xs:choice>
+                <xs:element ref="va:order-name"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="va:provider"/>
+                    <xs:element ref="va:service"/>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="va:start"/>
+                <xs:element minOccurs="0" ref="va:status"/>
+                <xs:element minOccurs="0" ref="va:stop"/>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:decimal"/>
+            <xs:attribute name="name"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="acknowledgements">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:acknowledgement"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="acknowledgement">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:acknowledgement-code"/>
+                <xs:element ref="va:acknowledgement-name"/>
+                <xs:element ref="va:date"/>
+            </xs:sequence>
+            <xs:attribute name="code" use="required" type="xs:integer"/>
+            <xs:attribute name="date" use="required" type="xs:decimal"/>
+            <xs:attribute name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="acknowledgement-code" type="xs:integer"/>
+    <xs:element name="acknowledgement-name" type="xs:string"/>
+    <xs:element name="date" type="xs:decimal"/>
+    <xs:element name="order-code" type="xs:decimal"/>
+    <xs:element name="group">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="order-name">
+        <xs:complexType mixed="true">
+            <xs:attribute name="code" type="xs:integer"/>
+            <xs:attribute name="name"/>
+            <xs:attribute name="vuid"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fullName">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="telecomList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="va:telecom"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="telecom">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="va:usageType"/>
+                <xs:element ref="va:value"/>
+            </xs:sequence>
+            <xs:attribute name="usageType" use="required" type="xs:NCName"/>
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="usageType" type="xs:NCName"/>
+    <xs:element name="scPercent">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="localTitle">
+        <xs:complexType mixed="true">
+            <xs:attribute name="value"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="content">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="on:concept"/>
+            </xs:sequence>
+            <xs:attribute ref="xml:space" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="leaveDays">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="passDays">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="value" use="required" type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="movementDate">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:NMTOKEN">
+                    <xs:attribute name="value" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
+<!-- xml.xsd. Move to separate file for validation
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://www.w3.org/XML/1998/namespace" >
+<xs:import namespace="http://marklogic.com/geocode" schemaLocation="geo.xsd"/>
+<xs:import namespace="ns://va.gov/2012/ip401/ontology" schemaLocation="on.xsd"/>
+<xs:attribute name="space" type="xs:NCName"/>
+</xs:schema>
+-->
+
+<!-- geo.xsd.  Move to separate file for validation
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://marklogic.com/geocode" >
+<xs:import schemaLocation="local.xsd"/>
+<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+<xs:import namespace="ns://va.gov/2012/ip401/ontology" schemaLocation="on.xsd"/>
+<xs:attribute name="lat" type="xs:decimal"/>
+<xs:attribute name="lon" type="xs:decimal"/>
+</xs:schema>
+-->
+
+<!-- on.xsd.  Move to separate file for validation
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="ns://va.gov/2012/ip401/ontology">
+    <xs:import schemaLocation="local.xsd"/>
+    <xs:import namespace="http://marklogic.com/geocode" schemaLocation="geo.xsd"/>
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+    <xs:element name="concept">
+        <xs:complexType mixed="true">
+            <xs:attribute name="code" use="required" type="xs:NMTOKEN"/>
+            <xs:attribute name="label" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+-->

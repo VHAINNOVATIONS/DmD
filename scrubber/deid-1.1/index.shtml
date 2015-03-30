@@ -1,0 +1,611 @@
+<html>
+<head>
+<title>De-identification: software and test data</title>
+</head>
+<body bgcolor=white>
+
+<!--#include virtual="/links-physiotools.html"-->
+
+<h1>De-identification: software and test data</h1>
+
+<p>
+<hr>
+<em>
+The <a href="#software"><tt>deid</tt> software package</a> includes
+code and dictionaries for automated location and removal of protected
+health information (PHI) in free text from medical records.
+The <a href="#data">gold-standard corpus</a> is a collection of
+deidentified nursing notes that have been reidentified with realistic
+surrogate data, for use in developing and evaluating software such
+as <tt>deid</tt>.</em>
+<hr>
+
+<p>
+<table cellpadding=20><tr><td width="40%">
+<center><h2>On this page</h2></center>
+<ul>
+<li><a href="#background">Background</a>
+<li><a href="#software">Software</a>
+  <ul>
+    <li><a href="#prereq">Prerequisite</a>
+    <li><a href="#downloading">Downloading and installing <tt>deid</tt></a>
+    <li><a href="#testing">Testing <tt>deid</tt></a>
+    <li><a href="#customizing">Customizing <tt>deid</tt></a>
+    <li><a href="#contents">Contents of the <tt>deid</tt> package</a>
+      <ul>
+	<li><a href="#code">Code</a>
+	<li><a href="#dictionaries">Dictionaries</a>
+	<li><a href="#gsfiles">Files related to the gold-standard corpus</a>
+	<li><a href="#sample-outputs">Sample outputs</a>
+	<li><a href="#docs">Documentation</a>
+      </ul>
+    <li><a href="#notes">Notes on files in the package</a>
+  </ul>
+<li><a href="#data">Data: the gold-standard corpus</a>
+<li><a href="#refs">Further reading</a>
+</ul>
+</td><td bgcolor="lightblue">
+For additional discussion of the methods used by the software
+described here, see
+<blockquote>
+Neamatullah I, Douglass M, Lehman LH, Reisner A, Villarroel M, Long WJ,
+Szolovits P, Moody GB, Mark RG, Clifford GD.
+<a href="http://www.biomedcentral.com/1472-6947/8/32"
+target="other">Automated De-Identification of Free-Text Medical
+Records</a>. <em>BMC Medical Informatics and Decision Making</em>,
+2008, <b>8</b>:32.  doi:10.1186/1472-6947-8-32
+</blockquote>
+<p>
+Please cite the above paper when referencing this material, and
+also include the standard citation for PhysioNet:</b>
+<blockquote>
+Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG,
+Mietus JE, Moody GB, Peng C-K, Stanley HE.  PhysioBank, PhysioToolkit, and
+Physionet: Components of a New Research Resource for Complex Physiologic
+Signals.
+<i>Circulation</i> <b>101</b>(23):e215-e220 [Circulation Electronic Pages;
+<a href="http://circ.ahajournals.org/cgi/content/full/101/23/e215"
+target="other">http://circ.ahajournals.org/cgi/content/full/101/23/e215</a>];
+2000 (June 13).
+</blockquote> 
+</td></tr>
+</table>
+
+<a name=background><h2>Background</h2></a>
+
+<p>
+In the USA, the HIPAA Privacy Rule restricts exchange of medical data
+containing protected health information (PHI), defined as any
+information that might be used to identify the individual(s) from whom
+the data were collected.  Data known to contain PHI can be shared for
+research purposes only under tightly controlled circumstances, typically
+involving data use agreements under which the researchers involved must
+obtain IRB or equivalent approvals for use of the data.
+
+<p>
+By contrast, medical data that do not contain PHI are exempt from the
+restrictions of the HIPAA Privacy Rule and may be shared freely.  The
+data available on PhysioNet fall into this category.
+
+<p>
+Many of the research data sets currently being collected by PhysioNet are
+accompanied by PHI, and the process of removing this PHI ("de-identification"
+in the language of HIPAA, or "anonymization") is tedious and error-prone.
+For many research projects, the cost of de-identification is a significant
+barrier to data sharing.
+
+<p>
+The <a href="/physiobank/database/mimic2cdb/">MIMIC II</a> project has
+invested several years' effort to develop and evaluate software that
+is capable of removing PHI from text and, where appropriate, replacing
+it by realistic surrogate PHI.  (For example, names are replaced by
+fictitious names, medical record numbers by fictitious medical record
+numbers, dates by fictitious dates, geographic locations by other
+geographic locations, etc.)  The MIMIC II project has contributed to
+PhysioNet both its deidentification software, which may be useful to
+other researchers needing to remove PHI from their own data, and a
+large corpus of text drawn from ICU nursing notes that were gathered
+simultaneously with the signals, trends, laboratory reports, discharge
+summaries and other data in the MIMIC
+II <a href="/physiobank/database/mimic2cdb/">clinical</a>
+and <a href="/physiobank/database/mimic2db/">waveform</a> databases.
+
+<hr>
+<a name=software><h2>Software</h2></a>
+
+<p>
+As is the case with all software available on PhysioNet, the
+de-identification software (<tt>deid</tt>) is provided in source form so that
+its workings can be studied, customized, and improved.  This software
+is free software.  You can redistribute it and/or modify it under the
+terms of the <a href="COPYING">GNU General Public License</a> as
+published by the Free Software Foundation, either version 2 of the
+License, or (at your option) any later version.
+
+<p>
+The authors of the <tt>deid</tt> software package are Margaret M Douglass,
+Li-wei H Lehman, William J Long, and Ishna Neamatullah.  An experimental
+prototype by Jason M Levine provided useful guidance in the design of
+<tt>deid</tt>.
+
+<a name=prereq><h3>Prerequisite</h3></a>
+
+<p>
+The <tt>deid</tt> package requires Perl (version 5 or later), which is
+freely available for all popular platforms
+<a href="http://perl.org/" target=other>here</a> if you don't have it
+already.
+
+<p>
+The current version of the <tt>deid</tt> software package was
+developed and tested using perl 5.8.8 and perl 5.10 on GNU/Linux
+(Fedora Core 10).  It has also been tested on Fedora 6, 7 and 8,
+Ubuntu 8.04, MacOS X 10.4.5, and on MS-Windows XP.
+
+<a name=downloading><h3>Downloading and installing <tt>deid</tt></h3></a>
+
+<p>
+The <tt>deid</tt> software package can be downloaded as a single
+file, <a 
+href="/physiotools/sources/deid/deid-1.1.tar.gz"><tt>deid-1.1.tar.gz</tt></a>.
+(Instructions on unpacking <tt>tar.gz</tt> files
+are <a href="/faq.shtml#tar-gz">here</a>.)  The contents
+of <tt>deid-1.1.tar.gz</tt> unpack into a directory named
+<tt>deid-1.1</tt>, which contains the files
+listed <a href=#contents>below</a>.
+
+<p>
+The <tt>deid</tt> software package is command-line
+(<a href=/faq.shtml#text-mode>text mode</a>) software that must be run
+in a terminal emulator (console) window.
+
+<p>
+Previous versions of the <tt>deid</tt> package are available for
+reference purposes <a href=/physiotools/sources/deid/>here</a>.
+
+<a name=testing><h3>Testing <tt>deid</tt></h3></a>
+
+<p>
+If you wish to test <tt>deid</tt>, see <a href="#data">Data: the gold-standard
+corpus of deidentified medical text</a> below for information on obtaining
+<tt>id.text</tt>.  Copy <tt>id.text</tt> into the <tt>deid-1.1</tt>
+directory (created when <tt>deid-1.1.tar.gz</tt> was unpacked in the
+previous step), and enter that directory.  Type the command
+<pre>
+    perl deid.pl id deid.config
+</pre>
+
+<p>
+The software will print a greeting message:
+
+<pre>
+    *******************************************************************************************************************
+    De-Identification Algorithm: Identifies Protected Health Information (PHI) in Discharge Summaries and Nursing Notes
+    *******************************************************************************************************************
+
+
+    Starting de-identification (version 1.1) ...
+
+    Running deid in output mode. Output files will be: 
+    id.phi: the PHI locations found by the code.
+    id.res: the scrubbed text.
+    id.info: debug info about the PHI locations.
+</pre>
+
+<p>
+On a typical current PC, the process will run to completion in
+approximately 10 to 20 minutes.  The three output files will be
+written into the current directory;  they should be identical to
+the files of the same names that are included in the <tt>GSoutput</tt>
+directory.
+
+<p>
+The program <tt>runStat.pl</tt> can be used to derive performance
+statistics by comparing the <tt>id.phi</tt> file generated
+by <tt>deid.pl</tt> with the reference <tt>id.deid</tt> file
+provided with the <tt>deid</tt> software package.  To do this, type
+the command
+<pre>
+    perl runStat.pl id.deid id.phi
+</pre>
+which should produce the output
+<pre>
+
+
+    ==========================
+
+    Num of true positives = 1720
+
+    Num of false positives = 546
+
+    Num of false negatives = 59
+
+    Sensitivity/Recall = 0.967
+
+    PPV/Specificity = 0.748
+
+    ==========================
+
+</pre>
+
+To use the gold standard corpus to test the performance of another
+deidentifier, arrange for that deidentifier to produce a file in the
+format of <tt>id.phi</tt>, then use <tt>runStat.pl</tt> as above.
+
+<a name=customizing><h3>Customizing <tt>deid</tt></h3></a>
+
+<p>
+Examine the configuration file, <tt>deid.config</tt>, to see how
+to modify the behavior of <tt>deid.pl</tt>.  For additional information,
+see the <a href="doc/DeidUserManual.pdf">user manual</a>.
+
+<p>
+In order to customize this software to de-identify free text in other
+medical records, you may replace our filter modules with your
+data-specific filters.  Additionally, at a minimum, you will have to
+replace the six files that contain a priori information
+(see <a href=#apriori>below</a>).
+
+<p>
+Depending on the text you wish to de-identify, you may wish to re-classify names
+as ambiguous or not.  For example, "Mae" is an unambiguous name in most
+contexts, but in nursing and discharge notes, it may be an acronym (meaning
+"moving all extremities") and it is therefore ambiguous in those contexts.
+
+<hr>
+<a name=contents><h3>Contents of the <tt>deid</tt> package</h3></a>
+
+See <a href=#downloading>above</a> for information about downloading
+the entire <tt>deid</tt> package in a single archive file.  The
+individual files in the package can also be viewed or downloaded by
+following the links below.
+<dl>
+
+<dt><a name=code><b>Code</b></a></dt>
+
+<dl>
+<dt><tt><a href=deid.pl>deid.pl</a></tt></dt>
+<dd>perl program for de-identifying medical notes</dd>
+
+<dt><tt><a href=runStat.pl>runStat.pl</a></tt></dt>
+<dd>perl program for calculating performance statistics</dd>
+
+<dt><tt><a href=stat.pm>stat.pm</a></tt></dt>
+<dd>perl subroutines shared by deid.pl and runStat.pl</dd>
+
+<dt><tt><a href=deid.config>deid.config</a></tt></dt>
+<dd>sample configuration file for use with deid.pl</dd>
+
+<br>
+<dt><tt><a href=COPYING>COPYING</a></tt></dt>
+<dd>GNU General Public License, version 2</dd>
+<br>
+</dl>
+
+<dt><a name=dictionaries><b>Dictionaries</b></a> (see the <a href=doc/DeidUserManual.pdf>User
+   Manual</a> for details)</dt>
+
+<dl>
+<dt><tt>dict/</tt></dt>
+<dd>Subdirectory containing lists of words and phrases not likely to be PHI</dd>
+
+<dl>
+<dt><tt><a href=dict/common_words.txt>common_words.txt</a></tt></dt>
+<dd>49,668 words that are common in medical records</dd>
+
+<dt><tt><a href=dict/commonest_words.txt>commonest_words.txt</a></tt></dt>
+<dd>5,126 words that are very common in medical records</dd>
+
+<dt><tt><a href=dict/medical_phrases.txt>medical_phrases.txt</a></tt></dt>
+<dd>28 medical phrases</dd>
+
+<dt><tt><a href=dict/notes_common.txt>notes_common.txt</a></tt></dt>
+<dd>66 very common words found in nursing notes</dd>
+
+<dt><tt><a href=dict/sno_edited.txt>sno_edited.txt</a></tt></dt>
+<dd>175,313 medical terms from UMLS/SNOMED</dd>
+</dl>
+<br>
+
+<dt><tt>lists/</tt></dt>
+<dd>Subdirectory containing lists of words and phrases that are or might be PHI</dd>
+<dl>
+
+<br>
+<dt><em>Names</em></dt>
+
+<dt><tt><a href=lists/last_names_unambig.txt>last_names_unambig.txt</a></tt></dt>
+<dd>81,497 unambiguous family names</dd>
+
+<dt><tt><a href=lists/last_names_ambig.txt>last_names_ambig.txt</a></tt></dt>
+<dd>7,298 ambiguous family names</dd>
+
+<dt><tt><a href=lists/last_names_popular.txt>last_names_popular.txt</a></tt></dt>
+<dd>93 popular family names</dd>
+
+<dt><tt><a href=lists/prefixes_unambig.txt>prefixes_unambig.txt</a></tt></dt>
+<dd>17 family name prefixes (von, de la, etc.)</dd>
+
+<dt><tt><a href=lists/last_name_prefixes.txt>last_name_prefixes.txt</a></tt></dt>
+<dd>138 prefixes that may appear before a family name</dd>
+
+<dt><tt><a href=lists/female_names_unambig.txt>female_names_unambig.txt</a></tt></dt>
+<dd>3843 unambiguous female given names</dd>
+
+<dt><tt><a href=lists/female_names_ambig.txt>female_names_ambig.txt</a></tt></dt>
+<dd>616 ambiguous female given names</dd>
+
+<dt><tt><a href=lists/female_names_popular.txt>female_names_popular.txt</a></tt></dt>
+<dd>125 popular female given names</dd>
+
+<dt><tt><a href=lists/male_names_unambig.txt>male_names_unambig.txt</a></tt></dt>
+<dd>1144 unambiguous male given names</dd>
+
+<dt><tt><a href=lists/male_names_ambig.txt>male_names_ambig.txt</a></tt></dt>
+<dd>419 ambiguous male given names</dd>
+
+<dt><tt><a href=lists/male_names_popular.txt>male_names_popular.txt</a></tt></dt>
+<dd>130 popular male given names</dd>
+
+<br>
+<dt><em>Locations</em></dt>
+
+<dt><tt><a href=lists/countries_unambig.txt>countries_unambig.txt</a></tt></dt>
+<dd>179 country names</dd>
+
+<dt><tt><a href=lists/us_states.txt>us_states.txt</a></tt></dt>
+<dd>59 US states and territories</dd>
+
+<dt><tt><a href=lists/us_states_abbre.txt>us_states_abbre.txt</a></tt></dt>
+<dd>59 standard US state and territorial abbreviations</dd>
+
+<dt><tt><a href=lists/more_us_state_abbreviations.txt>more_us_state_abbreviations.txt</a></tt></dt>
+<dd>53 non-standard US state name abbreviations</dd>
+
+<dt><tt><a href=lists/locations_unambig.txt>locations_unambig.txt</a></tt></dt>
+<dd>3341 unambiguous location names</dd>
+
+<dt><tt><a href=lists/locations_ambig.txt>locations_ambig.txt</a></tt></dt>
+<dd>135 words that may be (parts of) location names</dd>
+
+<br>
+<dt><em>Other possible PHI</em></dt>
+
+<dt><tt><a href=lists/us_area_code.txt>us_area_code.txt</a></tt></dt>
+<dd>382 US telephone area codes</dd>
+
+<dt><tt><a href=lists/company_names_unambig.txt>company_names_unambig.txt</a></tt></dt>
+<dd>484 unambiguous company names</dd>
+
+<dt><tt><a href=lists/company_names_ambig.txt>company_names_ambig.txt</a></tt></dt>
+<dd>18 ambiguous company names</dd>
+
+<dt><tt><a href=lists/ethnicities_unambig.txt>ethnicities_unambig.txt</a></tt></dt>
+<dd>195 ethnicities</dd>
+
+<br>
+<dt><a name=apriori><em>Known PHI (a priori information)</em></a></dt>
+<dd>[The six files in this group contain the surrogate PHI from
+the gold standard corpus, not the original PHI from the files used to
+create it!  You will need to create your own versions of these six
+files, using these as models, if you wish to use <tt>deid</tt> on your
+own data.]</dd>
+
+<dt><tt><a href=lists/pid_patientname.txt>pid_patientname.txt</a></tt></dt>
+<dd>163 full names and ids of the patients in the gold standard corpus</dd>
+
+<dt><tt><a href=lists/doctor_first_names.txt>doctor_first_names.txt</a></tt></dt>
+<dd>56 given names of doctors</dd>
+
+<dt><tt><a href=lists/doctor_last_names.txt>doctor_last_names.txt</a></tt></dt>
+<dd>254 family names of doctors</dd>
+
+<dt><tt><a href=lists/stripped_hospitals.txt>stripped_hospitals.txt</a></tt></dt>
+<dd>143 names of nearby hospitals</dd>
+
+<dt><tt><a href=lists/local_places_unambig.txt>local_places_unambig.txt</a></tt></dt>
+<dd>48 unambiguous names of nearby towns and cities</dd>
+
+<dt><tt><a href=lists/local_places_ambig.txt>local_places_ambig.txt</a></tt></dt>
+<dd>4 ambiguous names of nearby towns and cities</dd>
+
+</dl>
+</dl>
+
+<br>
+<dt><a name=gsfiles><b>Files related to the gold-standard corpus (excluding a priori
+    information, see above)</b></a><dt>
+
+<dl>
+<dt><tt><a href=id.deid>id.deid</a></tt></dt>
+<dd>PHI locations in the gold standard corpus</dd>
+
+<dt><tt><a href=id-phi.phrase>id-phi.phrase</a></tt></dt>
+<dd>PHI locations, types, and PHI terms in the gold standard corpus</dd>
+
+<dt><tt><a href=shift.txt>shift.txt</a></tt></dt>
+<dd>Date shifts for patients in the gold standard corpus</dd>
+
+<br>
+<dt><em>[The gold standard corpus itself must be obtained separately
+    (see below);  it is not part of this package.]</em></dt>
+</dl>
+
+<br>
+<dt><a name=sample-outputs><b>Sample outputs generated by <tt>deid.pl</tt></b></a></dt>
+
+<dl>
+<dt><tt>GSoutput/</tt></dt>
+<dd>[The three files provided in this directory were generated
+from the gold standard corpus, using the test procedure described
+below running on Fedora 10.]</dd>
+<dl>
+<dt><a href=GSoutput/id.phi><tt>id.phi</tt></a></dt>
+<dd>locations of detected PHI in the input text</dd>
+
+<dt><a href=GSoutput/id.res><tt>id.res</tt></a></dt>
+<dd>the deidentified output text, with PHI replaced by tags</dd>
+
+<dt><a href=GSoutput/id.info><tt>id.info</tt></a></dt>
+<dd>debugging information</dd>
+</dl>
+</dl>
+
+<br>
+<dt><a name=docs><b>Documentation</b></a></dt>
+
+<dl>
+<dt><tt>doc/</tt></dt>
+<dl>
+<dt><tt><a href=doc/DeidUserManual.pdf>DeidUserManual.pdf</a></tt></dt>
+<dd>De-Identification of Free-Text Medical Records: User Manual</dd>
+
+<dt><tt><a href=doc/Changes.log>Changes.log</a></tt></dt>
+<dd>Changes made since the initial release (<tt>deid-1.0</tt>).</dd>
+<br>
+</dl>
+<dt><em>[Also see the references at the top and bottom of this page.]</em></dt>
+</dl>
+</dl>
+
+<a name=notes><h3>Notes on the files in the package</h3></a>
+
+<p>
+Except for functions related to calculating performance statistics (in
+<tt>stats.pm</tt>), the deidentification code is contained in a perl
+script (<tt>deid.pl</tt>).  Its configuration file, <tt>deid.config</tt>,
+can be used to set parameters of the deidentification process at run time.
+Associated word and phrase lists are in <tt>lists/</tt> (containing known
+and possible PHI) and <tt>dict/</tt> (containing probable non-PHI).
+
+<p>
+If the date shift filter is on, <tt>deid</tt> replaces all dates in
+its input with surrogate dates.  The <tt>shift.txt</tt> file contains
+a randomly assigned date shift (between 1000 and 3000 days) for each
+patient in the gold standard corpus; surrogate dates are generated by
+adding the specified number of days to the dates in the input file.
+The method used to generate the date shifts in <tt>shift.txt</tt>
+differs from that used in PhysioBank databases.
+
+<p>
+The file <tt>id-phi.phrase</tt> is provided as a convenient index
+to the PHI in the gold standard corpus; it is not used by the deid
+software. Each line of this file contains 6 fields: PID,
+Record_Number, PHI_Start_Location, PHI_End_Location, PHI_Type, and
+PHI_Text.
+
+<p>
+The file <tt>id.deid</tt> also contains PHI locations in the gold standard
+corpus, and it is used as a reference for calculating performance statistics
+by the functions in <tt>stats.pm</tt>.  It contains two types of lines.  The
+first type is of the form
+<pre>
+    Patient <em>PID</em> Note <em>Record_Number</em>
+</pre>
+and the second type is of the form
+<pre>
+    <em>PHI_Start_Location PHI_Start_Location PHI_End_Location</em>
+</pre>
+
+<hr>
+
+<a name=data><h2>Data: the gold-standard corpus of deidentified medical text</h2></a>
+
+<p>
+Evaluating software for de-identification turns out to be quite difficult.
+As in many of the projects contributing to PhysioNet, a reference database
+is highly useful.  Ideally the developer of de-identification software needs
+an appropriate corpus of text in which all of the PHI has been labelled, so
+that the software's PHI detection performance can be assessed quickly and
+quantitatively.  To compare different approaches to PHI removal objectively,
+we need a standard corpus.  And here's the dilemma:  we can't share such a
+corpus if it has any PHI in it!
+
+<p>
+The <tt>deid</tt> software package was developed and tested using a
+gold standard corpus of 2,434 nursing notes that have been thoroughly
+deidentified by a multi-pass process that included meticulous reviews
+by three or more experts working independently, as well as by a
+variety of automated methods.  All detected instances of PHI in these
+nursing notes have been replaced by realistic surrogate data in the
+gold standard corpus.  Although the <tt>deid</tt> software, as noted
+above, may be redistributed under the terms of the GPL, the gold
+standard corpus, because of the very small possibility that it may
+contain one or more instances of undetected PHI, is currently
+available only under terms that do not permit it to be redistributed.
+This corpus is available only under the following conditions:
+
+<ol>
+<li> You agree not to attempt to identify any of the individual
+subjects of the file.
+
+<li> If you find information within the file that you believe might
+permit identification of any of the individual subjects of the file,
+you agree to report this promptly by email
+to <a href="mailto:webmaster@physionet.org">webmaster@physionet.org</a>,
+citing the specific information in question so that it can be
+investigated and removed if necessary.
+
+<li> You agree to exercise all reasonable and prudent care to avoid
+disclosure of the identity of any of the individual subjects of the
+file in any publication or other communication of your analysis of the
+file.
+
+<li> If you agree to all of these terms and conditions, access to this
+file will be granted to you as an individual. You may not share it
+with anyone else. Your colleagues can obtain access to this file as
+individuals via the same procedure you are following.
+</ol>
+
+<p>
+To download the corpus, login to PhysioNetWorks, then follow the "Deidentified
+Medical Text" link on your PhysioNetWorks home page.  (You can create a free
+PhysioNetWorks account in a few minutes <a href="/pnw/login">here</a> if you
+don't have one already.)
+
+<hr>
+<a name=refs><h2>Further reading</h2></a>
+<ol>
+<li>
+Neamatullah I. <a href="doc/ishna-meng-thesis.pdf">Automated De-Identification 
+of Free-Text Medical Records</a>.  MIT Dept of EECS, MEng thesis, 2006.
+
+<li>
+Douglass M. <a href="doc/douglass-meng-thesis.pdf">Computer-Assisted
+De-identification of Free-text Nursing Notes</a>.
+MIT Dept of EECS, MEng thesis, 2005.
+
+<li>
+Douglass M, Clifford GD, Reisner A, Long WJ, Moody GB, Mark RG.
+<a href="doc/douglass-cinc-2005.pdf">De-Identification Algorithm for
+Free-Text Nursing Notes</a>. <em>Computers In Cardiology</em> 32:331-334,
+2005.
+
+<li>
+Douglass M, Clifford GD, Reisner A, Moody GB, Mark RG.
+<a href="doc/douglass-cinc-2004.pdf">Computer-Assisted Deidentification of
+Free Text in the MIMIC II Database</a>. <em>Computers In Cardiology</em>
+31:341-344, 2004.
+
+<li>
+Levine JM. <a href="doc/levine-meng-thesis.pdf">De-identification of ICU patient
+records</a>. MIT Dept of EECS, MEng thesis, 2003.
+</ol>
+
+<h3>Acknowledgements</h3>
+
+<p>
+This work was performed with support from the National Institute of Biomedical
+Imaging and Bioengineering (NIBIB), under grant R01 EB001659.
+
+<h3>Contact information</h3>
+<blockquote>
+Li-wei H Lehman (lilehman AT alum DOT mit DOT edu)<br>
+Gari D Clifford (gari AT mit DOT edu)
+</blockquote>
+
+
+<hr>
+<!--#include virtual="/footer.shtml"-->
+</body>
+</html>
