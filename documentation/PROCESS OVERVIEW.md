@@ -30,6 +30,6 @@ The DmD Acquirer is a process that performs the following functions:
 
 DmD Scrubber
 ============
-The DmD Scrubber is a processor that interates through the DmD Alpha records and de-identifies them.  It uses a library of common names, places, diagnosis, and regular expression powered queries to find addresses and other common linguistically identifable strings and replaces them randomly with synthetic data.  It is based upon the deid-1.1 codebase written in Perl but greatly inhanced for the needs of DmD.
+The DmD Scrubber is a processor that interates through the DmD Alpha records and de-identifies them.  It uses a library of common names, places, diagnosis, and regular expression powered queries to find addresses and other common linguistically identifable strings and replaces them randomly with synthetic data.  It is based upon the deid-1.1 codebase written in Perl but greatly enhanced for the needs of DmD.
 
 

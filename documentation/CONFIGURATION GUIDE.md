@@ -1,10 +1,11 @@
 This document details the steps to set up DmD.
 
 Prerequisites:
-
+==============
 A server running RHEL or CentOS.
 
 Install Gnome Desktop
+---------------------
 sudo yum groupinstall “Desktop” “Desktop Platform”
 
 Install VNC Server
@@ -95,5 +96,15 @@ alternatives --set jar /usr/java/jdk1.6.0_45/bin/jar
 Apache & mod_perl
 # this installs all apache and mod_perl dependencies
 yum install mod_perl -y
+
+Install MarkLogic NoSQL XML Database
+------------------------------------
+Goto http://marklogic.com
+Create a developer account
+Download MarkLogic 7 as an RPM file for RHEL 6 / CentOS
+sudo su
+yum install compat-glibc
+yum install glibc.i686
+rpm -i MarkLogic…
 
 
